@@ -1,5 +1,6 @@
 name = "hellorobin2"
 type = "javascript" 
+compatibility_date = "2025-12-23"
 account_id = "375d1b4d38dd2c0a58e4295e90a56d14"
 workers_dev = false
 route = "hellorobin.cc/*"
