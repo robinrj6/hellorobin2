@@ -1,0 +1,5 @@
+name = "hellorobin2"
+compatibility_date = "2025-12-23"
+
+[assets]
+directory = "./dist"
