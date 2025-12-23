@@ -1,0 +1,17 @@
+<div>
+  <slot />
+</div>
+<style>
+  div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 2rem;
+  }
+  @media screen and (max-width: 1052px) {
+    div {
+        max-width: 100%;
+      }
+  }
+</style>

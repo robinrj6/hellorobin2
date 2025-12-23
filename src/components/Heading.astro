@@ -1,0 +1,21 @@
+<div>
+    <h1 style={`color: ${Astro.props.color};`}> {Astro.props.title} </h1>
+</div>
+
+
+<style>
+  @font-face {
+    font-family: "Neighbor";
+    src: url("/src/assets/fonts/Neighbor.ttf") format("truetype");
+  }
+    h1{
+        text-align: center;
+        font-family: Neighbor, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size:4rem;
+        margin:0;
+    }
+
+  </style>

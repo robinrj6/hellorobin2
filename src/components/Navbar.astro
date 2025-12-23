@@ -46,6 +46,7 @@ const { pathname } = Astro.url;
     color: rgb(145, 145, 145);
     text-decoration: none;
     position: relative;
+    font-size: 1rem;
   }
 
   a::after {
@@ -64,5 +65,9 @@ const { pathname } = Astro.url;
   a:hover::after,
   a.active::after {
     transform: scaleX(1);
+  }
+  
+  a.active {
+    font-size: 1.25rem;
   }
 </style>

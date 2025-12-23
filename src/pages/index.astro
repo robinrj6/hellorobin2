@@ -1,22 +1,24 @@
 ---
-import Navbar from '../components/Navbar.astro';
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Navbar from "../components/Navbar.astro";
+import Welcome from "../components/Welcome.astro";
+import ContainerCenter from "../layouts/ContainerCenter.astro";
+import Layout from "../layouts/Layout.astro";
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<Navbar />
-	<Welcome />
+  <Navbar />
+  <ContainerCenter>
+  <Welcome />
+  </ContainerCenter>
 </Layout>
 
 <style>
-
-
   :global(body) {
-	margin: 0;
-	padding: 0;
-	background-color: #340000;
+    margin: 0;
+    padding: 0;
+    background-color: #340000;
   }
+</style>

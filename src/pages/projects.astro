@@ -1,0 +1,27 @@
+---
+import Navbar from "../components/Navbar.astro";
+import Layout from "../layouts/Layout.astro";
+import ContainerCenter from "../layouts/ContainerCenter.astro";
+import Project from "../components/Project.astro";
+---
+
+<Layout>
+  <Navbar />
+  <ContainerCenter>
+    <!-- <Heading id="projects" title="Projects" color="#b6b6b6" /> -->
+    <Project/>
+  </ContainerCenter>
+</Layout>
+
+<style>
+  @font-face {
+    font-family: "Neighbor";
+    src: url("/src/assets/fonts/Neighbor.ttf") format("truetype");
+  }
+  :global(body) {
+    margin: 0;
+    padding: 0;
+    background-color: #340000;
+  }
+
+</style>

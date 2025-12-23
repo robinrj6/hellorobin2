@@ -24,7 +24,7 @@ const fontFaceStyle = `
     src: url("/src/assets/fonts/HurmitNerdFont-Regular.otf") format("opentype");
   }
     #githubContrib {
-        margin-top: 5rem;
+      margin-top: 5rem;
       background-color: rgba(30, 40, 30, 0.72);
       font-family: "Hurmit", sans-serif;
       padding: 1rem;
@@ -32,10 +32,17 @@ const fontFaceStyle = `
       color: rgba(135, 210, 135, 0.52);
       border : 1px solid rgba(135, 210, 135, 0.22);
       box-shadow: 0 0px 6px rgba(39, 106, 3, 0.93);
+      
     }
       a {
         color: rgba(135, 210, 135, 0.72);
       }   
+    @media screen and (max-width: 768px) {
+      #githubContrib {
+        container-type: inline-size; 
+        width: 100%;    
+      }     
+    }
 `;
 
 export default function ActivityCalendarClient({

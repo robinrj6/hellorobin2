@@ -1,0 +1,63 @@
+---
+import ProjectOne from "./ProjectOne.astro";
+import GitHubActivity from "./GitHubActivity.astro";
+---
+
+<div style="margin-top: 5rem;">
+  <div id="container">
+    <ProjectOne
+      title="Backup Cluster Manager"
+      description="Open Source MVP developed for industry partner SEP. An alternative for managing distributed nodes in a backup cluster environment. Implement Cluster Manager, Backup Manager and nodes Users, nodes, backups to let users interact with the cluster manager interface."
+        link="https://github.com/amosproj/amos2025ws02-backup-cluster-manager"
+    />
+    <ProjectOne
+      title="FFMPEG Batch Video Processor"
+      description="Docker based tool to process multiple videos concurrently with predefined profiles, custom operations, and workflow automation."
+        link="https://github.com/robinrj6/FFmpeg-batch"
+    />
+
+    <ProjectOne
+      title="Youtube Videos Suggestor"
+      description="n8n workflow to suggest youtube videos after assessing the transcript of videos."
+
+    />
+    <ProjectOne
+      title="GAN based Pneumonia Detection"
+      description="A Python project which detects pneumonia from images of chest X-rays based on generative adversarial networks."
+      link="https://pneumogan.vercel.app/"
+    />
+    
+  </div>
+  <span style="display: flex; justify-content: center;">
+    <GitHubActivity />
+  </span>
+</div>
+
+<style>
+  #container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+    grid-auto-flow: row;
+    gap: 2rem;
+    width: 100%;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+
+  }
+
+  h1 {
+    color: #b6b6b6;
+    text-align: center;
+    font-family: Neighbor, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  @media screen and (max-width: 1052px) {
+    #container {
+      display: flex;
+      flex-direction: column;
+      width: auto;
+    }   
+  }
+</style>
