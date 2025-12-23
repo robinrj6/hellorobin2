@@ -14,11 +14,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. Install Node
-      - name: Setup Node
+      # 2. Install Node 20
+      - name: Setup Node 20
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: '20'
 
       # 3. Install dependencies
       - name: Install dependencies
@@ -35,3 +35,4 @@ jobs:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           workingDirectory: .
           environment: production
+          wranglerVersion: "latest"
