@@ -31,6 +31,10 @@ jobs:
       - name: Install Wrangler
         run: npm install -g wrangler@latest
 
+      # 5. Prevent uploading _worker.js as an asset
+      - name: Ignore _worker.js
+        run: echo "_worker.js" > ./dist/.assetsignore
+        
       # 6. Deploy Worker
       - name: Deploy to Cloudflare Worker
         run: npx wrangler deploy
