@@ -33,6 +33,6 @@ jobs:
 
       # 6. Deploy Worker
       - name: Deploy to Cloudflare Worker
-        run: wrangler publish
+        run: wrangler deploy
         env:
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
