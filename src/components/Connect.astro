@@ -1,0 +1,74 @@
+<div>
+  <h1>Connect with Me</h1>
+  <p>
+    If you'd like to get in touch, feel free to reach out via email or connect
+    on LinkedIn!
+  </p>
+  <ul>
+    <li>
+      <a href="mailto:robinrjr10germany@gmail.com">
+        <img src="/src/assets/images/mail-heart.svg" alt="" /></a>
+    </li>
+    <li>
+      <a
+        href="https://www.linkedin.com/in/robin-jose-raju/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img src="/src/assets/images/brand-linkedin.svg" alt="" /></a>
+    </li>
+    <li>
+      <a
+        href="https://www.github.com/robinrj6"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img src="/src/assets/images/brand-github.svg" alt="" /></a>
+    </li>
+  </ul>
+</div>
+
+<style>
+  @font-face {
+    font-family: "Hurmit";
+    src: url("/src/assets/fonts/HurmitNerdFont-Regular.otf") format("opentype");
+  }
+  div {
+    text-align: center;
+    font-family: "Neighbor", sans-serif;
+    padding: 2rem;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #b6b6b6;
+  }
+
+  p {
+    font-size: 1.2rem;
+    font-family: Hurmit, sans-serif;
+    margin-bottom: 2rem;
+    color: #707070fc;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  li img {
+    width: 40px;
+    height: 40px;
+    transition: transform 0.2s;
+    filter: brightness(0) saturate(100%) invert(60%) hue-rotate(100deg)
+      contrast(45%);
+  }
+
+  li img:hover {
+    transform: scale(1.1);
+  }
+</style>
