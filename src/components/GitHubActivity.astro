@@ -1,0 +1,22 @@
+---
+import ActivityCalendarClient from "./ActivityCalendarClient";
+
+export type Activity = {
+  date: string;
+  count: number;
+  level: 0 | 1 | 2 | 3 | 4;
+};
+
+export type ApiResponse = {
+  total: {
+    [year: number]: number;
+    [year: string]: number;
+  };
+  contributions: Array<Activity>;
+};
+
+const response = await fetch("https://github-contributions-api.jogruber.de/v4/robinrj6?y=" + new Date().getFullYear());
+const data = (await response.json()) as ApiResponse;
+---
+
+<ActivityCalendarClient client:only="react" data={data.contributions} />

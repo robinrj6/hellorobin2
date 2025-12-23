@@ -1,0 +1,68 @@
+---
+const { pathname } = Astro.url;
+---
+
+<nav>
+  <ul>
+    <li><a href="/" class={pathname === "/" ? "active" : ""}>Home</a></li>
+    <li><a href="/projects" class={pathname.startsWith("/projects") ? "active" : ""}>Projects</a></li>
+    <li><a href="/jobs" class={pathname.startsWith("/jobs") ? "active" : ""}>Jobs</a></li>
+    <li><a href="/connect" class={pathname.startsWith("/connect") ? "active" : ""}>Connect</a></li>
+  </ul>
+</nav>
+
+<style>
+  @font-face {
+    font-family: "Neighbor";
+    src: url("/src/assets/fonts/Neighbor.ttf") format("truetype");
+  }
+
+  nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    padding-top: 2rem;
+    font-family: Neighbor, sans-serif;
+    font-weight: 400;
+    z-index: 100;
+  }
+
+  ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    text-transform: uppercase;
+  }
+
+  a {
+    color: rgb(145, 145, 145);
+    text-decoration: none;
+    position: relative;
+  }
+
+  a::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: rgb(145, 145, 145);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease-in-out;
+  }
+
+  a:hover::after,
+  a.active::after {
+    transform: scaleX(1);
+  }
+</style>
