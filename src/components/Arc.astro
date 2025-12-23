@@ -1,0 +1,177 @@
+---
+import StickerNote from "./StickerNote.astro";
+
+const timeline = [
+  {
+    title: "IMG.LY",
+    role: "Werkstudent Frontend Developer (Remote)",
+    period: "December 2023 – December 2025",
+    description:
+      "As a Werkstudent, contributedto frontend development, website infrastructure, SEO tooling, and automation. Built landing pages and UI components using Webflow and Next.js, developed Python-based SEO crawlers, and managed automated workflows.",
+  },
+  {
+    title: "FAU Erlangen",
+    role: "Student – M.Sc.",
+    period: "October 2023 – present",
+    description:
+      "Pursuing a master's with focus on artificial intelligence, computer vision, and machine learning to deepen my expertise in these cutting-edge fields.",
+  },
+  {
+    title: "Capgemini",
+    role: "Fullstack Developer",
+    period: "September 2021 – June 2023",
+    description:
+      "Worked in an entry-level role, trained in Java and Spring Boot for backend development, along with React and Angular for frontend projects. Built and integrated REST APIs, tested them using Postman, and gained hands-on experience with MongoDB and PostgreSQL, developing a solid full-stack foundation.",
+  },
+  {
+    title: "Amal Jyothi College",
+    role: "Student – B.Tech",
+    period: "August 2017 – September 2021",
+    description:
+      "Started my bachelor's degree in Computer Science and Engineering, building foundations in programming, data structures, and software engineering.",
+  },
+];
+---
+
+<section id="arc">
+  <StickerNote />
+  <ol class="timeline">
+    {timeline.map((item) => (
+      <li class="timeline-item">
+        <div class="bullet" aria-hidden="true"></div>
+        <div class="content">
+          <div class="header">
+            <h2>{item.title}</h2>
+            <span class="role">{item.role}</span>
+            <span class="period">{item.period}</span>
+          </div>
+          <p class="description">{item.description}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  @font-face {
+    font-family: "Hurmit";
+    src: url("/src/assets/fonts/HurmitNerdFont-Regular.otf") format("opentype");
+  }
+  @font-face {
+    font-family: "Neighbor";
+    src: url("/src/assets/fonts/Neighbor.ttf") format("truetype");
+  }
+
+  :global(body) {
+    background-color: #340000;
+  }
+
+  #arc {
+    font-family: Hurmit, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5rem 1rem 0 1rem;
+    gap: 2rem;
+    overflow: hidden;
+  }
+
+  h1 {
+    font-family: Neighbor, sans-serif;
+    color: #c0c0c0;
+    font-size: 2.25rem;
+    margin: 0;
+    letter-spacing: 0.5px;
+  }
+
+  .timeline {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: min(900px, 90vw);
+  }
+
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 24px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, #6b0000, #aa0000);
+    opacity: 0.6;
+  }
+
+  .timeline-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 1rem;
+    padding-bottom: 1.75rem;
+  }
+
+  .bullet {
+    position: relative;
+    top: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #aa0000;
+    box-shadow: 0 0 0 4px #600000af;
+    margin-left: 16px;
+  }
+
+  .content {
+    background-color: #600000af;
+    padding: 1.25rem 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 0px 6px rgba(174, 4, 4, 0.1);
+  }
+
+  .header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  h2 {
+    font-family: Neighbor, sans-serif;
+    color: #d0d0d0e5;
+    font-size: 1.4rem;
+    margin: 0;
+  }
+
+  .role {
+    color: #b6b6b6;
+  }
+
+  .period {
+    margin-left: auto;
+    color: #9e9e9ee5;
+  }
+
+  .description {
+    margin: 0.25rem 0 0 0;
+    color: #8c8c8ce5;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 640px) {
+    .timeline-item {
+      grid-template-columns: 36px 1fr;
+    }
+    .bullet {
+      margin-left: 8px;
+    }
+    .period {
+      width: 100%;
+      margin-left: 0;
+    }
+    #arc{
+      overflow: scroll;
+    }
+  }
+</style>

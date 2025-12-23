@@ -6,7 +6,7 @@ const { pathname } = Astro.url;
   <ul>
     <li><a href="/" class={pathname === "/" ? "active" : ""}>Home</a></li>
     <li><a href="/projects" class={pathname.startsWith("/projects") ? "active" : ""}>Projects</a></li>
-    <li><a href="/jobs" class={pathname.startsWith("/jobs") ? "active" : ""}>Jobs</a></li>
+    <li><a href="/arc" class={pathname.startsWith("/arc") ? "active" : ""}>ARC</a></li>
     <li><a href="/connect" class={pathname.startsWith("/connect") ? "active" : ""}>Connect</a></li>
   </ul>
 </nav>
@@ -18,7 +18,7 @@ const { pathname } = Astro.url;
   }
 
   nav {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;

@@ -1,0 +1,56 @@
+<div id="sticker">
+  <div class="sticker-badge" role="status" aria-live="polite">
+    <span class="sticker-title">Open to work</span>
+    <span class="sticker-sub">Let me know if you have any opportunities!</span>
+  </div>
+</div>
+<style>
+  #sticker {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 110;
+    display: flex;
+    justify-content: flex-end;
+    pointer-events: none;
+  }
+
+  .sticker-badge {
+    pointer-events: auto;
+    background: rgba(32, 32, 32, 0.92);
+    border: 1px solid rgba(140, 255, 200, 0.35);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    border-radius: 16px;
+    padding: 0.9rem 1.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 220px;
+    font-family: Hurmit, sans-serif;
+  }
+
+  .sticker-title {
+    color: #0fd19a;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.95rem;
+  }
+
+  .sticker-sub {
+    color: rgba(182, 182, 182, 0.85);
+    font-size: 0.9rem;
+  }
+
+  @media screen and (max-width: 1128px) {
+    #sticker {
+      position: static;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    .sticker-badge {
+      width: min(90vw, 340px);
+      text-align: center;
+    }
+  }
+</style>

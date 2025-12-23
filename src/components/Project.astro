@@ -3,11 +3,11 @@ import ProjectOne from "./ProjectOne.astro";
 import GitHubActivity from "./GitHubActivity.astro";
 ---
 
-<div style="margin-top: 5rem;">
+<div>
   <div id="container">
-    <ProjectOne
+    <ProjectOne id="project"
       title="Backup Cluster Manager"
-      description="Open Source MVP developed for industry partner SEP. An alternative for managing distributed nodes in a backup cluster environment. Implement Cluster Manager, Backup Manager and nodes Users, nodes, backups to let users interact with the cluster manager interface."
+      description="Open Source an alternative for managing distributed nodes in a backup cluster environment. Implement Cluster Manager, Backup Manager and nodes Users, nodes, backups to let users interact with the cluster manager interface."
         link="https://github.com/amosproj/amos2025ws02-backup-cluster-manager"
     />
     <ProjectOne
@@ -22,7 +22,7 @@ import GitHubActivity from "./GitHubActivity.astro";
 
     />
     <ProjectOne
-      title="GAN based Pneumonia Detection"
+      title="PneumoGAN"
       description="A Python project which detects pneumonia from images of chest X-rays based on generative adversarial networks."
       link="https://pneumogan.vercel.app/"
     />
@@ -35,16 +35,13 @@ import GitHubActivity from "./GitHubActivity.astro";
 
 <style>
   #container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
-    grid-auto-flow: row;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
     gap: 2rem;
     width: 100%;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-
   }
-
   h1 {
     color: #b6b6b6;
     text-align: center;
