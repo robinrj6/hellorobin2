@@ -1,5 +1,11 @@
 <div id="sticker">
   <div class="sticker-badge" role="status" aria-live="polite">
+    <button class="close-btn" aria-label="Close sticker" title="Close">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
     <span class="sticker-title">Open to work</span>
     <span class="sticker-sub">Let me know if you have any opportunities!</span>
   </div>
@@ -13,6 +19,13 @@
     display: flex;
     justify-content: flex-end;
     pointer-events: none;
+    transition: opacity 0.3s ease-out;
+  }
+
+  #sticker.closed {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
   }
 
   .sticker-badge {
@@ -27,6 +40,31 @@
     gap: 0.2rem;
     min-width: 220px;
     font-family: Hurmit, sans-serif;
+    position: relative;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: none;
+    border: none;
+    color: rgba(140, 255, 200, 0.6);
+    cursor: pointer;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+  }
+
+  .close-btn:hover {
+    color: rgba(140, 255, 200, 1);
+  }
+
+  .close-btn:focus {
+    outline: 2px solid rgba(140, 255, 200, 0.5);
+    border-radius: 4px;
   }
 
   .sticker-title {
@@ -54,3 +92,26 @@
     }
   }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const stickerEl = document.getElementById('sticker');
+    const closeBtn = document.querySelector('.close-btn');
+    
+    // Check if sticker was previously closed
+    if (localStorage.getItem('stickerClosed') === 'true') {
+      stickerEl?.classList.add('closed');
+    }
+    
+    // Handle close button click
+    closeBtn?.addEventListener('click', () => {
+      stickerEl?.classList.add('closed');
+      localStorage.setItem('stickerClosed', 'true');
+    });
+
+    //on refresh, show sticker again 
+    window.addEventListener('beforeunload', () => {
+      localStorage.removeItem('stickerClosed');
+    });
+  });
+</script>
