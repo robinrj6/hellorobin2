@@ -6,3 +6,6 @@ account_id = "375d1b4d38dd2c0a58e4295e90a56d14"
 workers_dev = false
 route = "hellorobin.cc/*"
 zone_id = "1cfcec25eadac7c6c413d0b1350ab321"
+
+[assets]
+directory = "./dist"
