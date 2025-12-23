@@ -10,11 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout repo
-      - name: Checkout code
-        uses: actions/checkout@v3
+      # 1. Checkout code
+      - uses: actions/checkout@v3
 
-      # 2. Install Node 20
+      # 2. Install Node 20 and make it default
       - name: Setup Node 20
         uses: actions/setup-node@v3
         with:
@@ -22,17 +21,18 @@ jobs:
 
       # 3. Install dependencies
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       # 4. Build Astro
       - name: Build Astro
         run: npm run build
 
-      # 5. Deploy with Wrangler
+      # 5. Install Wrangler globally with correct Node
+      - name: Install Wrangler
+        run: npm install -g wrangler@latest
+
+      # 6. Deploy Worker
       - name: Deploy to Cloudflare Worker
-        uses: cloudflare/wrangler-action@2.0.0
-        with:
-          apiToken: ${{ secrets.CF_API_TOKEN }}
-          workingDirectory: .
-          environment: production
-          wranglerVersion: "latest"
+        run: wrangler publish
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
