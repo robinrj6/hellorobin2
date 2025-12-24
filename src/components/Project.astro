@@ -3,32 +3,31 @@ import ProjectOne from "./ProjectOne.astro";
 import GitHubActivity from "./GitHubActivity.astro";
 ---
 
-<div>
+<div style="margin-top: 10rem; height:100vh;">
   <div id="container">
-    <ProjectOne id="project"
+    <ProjectOne
+      id="project"
       title="Backup Cluster Manager"
       description="Open Source alternative for managing distributed nodes in a backup cluster environment. Implement Cluster Manager, Backup Manager and nodes Users, nodes, backups to let users interact with the cluster manager interface."
-        link="https://github.com/amosproj/amos2025ws02-backup-cluster-manager"
+      link="https://github.com/amosproj/amos2025ws02-backup-cluster-manager"
     />
     <ProjectOne
       title="FFMPEG Batch Video Processor"
       description="Docker based tool to process multiple videos concurrently with predefined profiles, custom operations, and workflow automation."
-        link="https://github.com/robinrj6/FFmpeg-batch"
+      link="https://github.com/robinrj6/FFmpeg-batch"
     />
 
     <ProjectOne
       title="Youtube Videos Suggestor"
       description="n8n workflow to suggest youtube videos after assessing the transcript of videos."
-
     />
     <ProjectOne
       title="PneumoGAN"
       description="A Python project which detects pneumonia from images of chest X-rays based on generative adversarial networks."
       link="https://pneumogan.vercel.app/"
     />
-    
   </div>
-  <span style="display: flex; justify-content: center;">
+  <span style="display: flex; justify-content: center; margin-bottom: 2rem;">
     <GitHubActivity />
   </span>
 </div>
@@ -55,6 +54,6 @@ import GitHubActivity from "./GitHubActivity.astro";
       display: flex;
       flex-direction: column;
       width: auto;
-    }   
+    }
   }
 </style>
