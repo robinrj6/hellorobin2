@@ -8,6 +8,5 @@ import cloudflare from "@astrojs/cloudflare";
 export default defineConfig({
   site: "https://hellorobin.cc",
   integrations: [react()],
-  output: "server",
   adapter: cloudflare(),
 });
