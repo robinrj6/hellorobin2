@@ -24,7 +24,7 @@ const { pathname } = Astro.url;
 
 <script>
   const nav = document.getElementById("site-nav");
-  const onScroll = () => nav?.classList.toggle("nav--bg", window.scrollY > 10);
+  const onScroll = () => nav?.classList.toggle("nav--bg", window.scrollY > 50);
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("astro:unload", () =>
@@ -46,13 +46,14 @@ const { pathname } = Astro.url;
     right: 0;
     display: flex;
     justify-content: center;
-    padding-top: 2rem;
+    text-align: center;
+    padding-top: 1rem;
     font-family: Neighbor, sans-serif;
     font-weight: 400;
-    z-index: 100;    
+    z-index: 100;
+
   }
   .nav--bg {
-    margin-top: 0.5rem;
     padding: 1rem 0;
     border-radius: 100vmax;
     background-color: rgba(148, 79, 79, 0.183);
@@ -64,33 +65,28 @@ const { pathname } = Astro.url;
       0 0 20px rgb(0 0 0 / 10%);
     text-align: center;
     cursor: pointer;
-          width: calc((100vw/3) + 2rem);
-
+    width: calc((100vw*(25/100)) + 2rem);
 
     &::before,
     &::after {
       content: "";
-      position: absolute ;
+      position: absolute;
       inset: 0;
       border-radius: inherit;
       pointer-events: none;
-
     }
 
     &::before {
       backdrop-filter: blur(16px);
       filter: url(#glass-distortion);
       z-index: -1;
-
     }
 
     &::after {
       box-shadow:
         inset 2px 2px 1px 0 rgb(255 255 255 / 50%),
         inset -1px -1px 1px 1px rgb(255 255 255 / 50%);
-
     }
-
   }
 
   ul {
@@ -135,22 +131,18 @@ const { pathname } = Astro.url;
   }
 
   @media screen and (max-width: 906px) {
-   
-
     .nav--bg {
       width: calc((50vw) + 2rem);
-
-    }
-  }  @media screen and (max-width: 606px) {
-    .nav--bg {
-      width: calc((70vw) + 2rem);
-
-    }
-  }  @media screen and (max-width: 440px) {
-    .nav--bg {
-      width: 98%
-
     }
   }
-   
+  @media screen and (max-width: 606px) {
+    .nav--bg {
+      width: calc((70vw) + 2rem);
+    }
+  }
+  @media screen and (max-width: 440px) {
+    .nav--bg {
+      width: 98%;
+    }
+  }
 </style>

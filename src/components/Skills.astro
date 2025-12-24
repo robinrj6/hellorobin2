@@ -1,0 +1,156 @@
+---
+import skillsData from "../../public/data/skills.json";
+---
+
+<div class="skills">
+  <h1>Skills That Keep the Lights On ⚡</h1>
+  <img
+    src="/images/lightning.svg"
+    alt="Know Me Icon"
+    width="200"
+    height="200"
+    class="backgroundimg"
+  />
+  <ul class="skills-list">
+    {
+      skillsData.map((skill) => (
+        <li class="skill-item">
+          <img src={skill.icon} alt={skill.name} />
+          <span>{skill.name}</span>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  @font-face {
+    font-family: "Hurmit";
+    src: url("/src/assets/fonts/HurmitNerdFont-Regular.otf") format("opentype");
+  }
+  h1 {
+    text-align: left;
+    font-family: "Hurmit", sans-serif;
+    color: rgba(182, 182, 182, 0.718);
+    margin-bottom: 1rem;
+  }
+
+  .skills {
+    display: flex;
+    flex-direction: column;
+    min-height: max-content;
+    position: relative;
+  }
+
+  .skills-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 2rem;
+    justify-content: center;
+    row-gap: 1rem;
+    column-gap: 1rem;
+    width: 65vw;
+    background-color: rgba(42, 33, 26, 0.979);
+    border-radius: 12px;
+    position: relative;
+    border: 3px solid #63636348;
+    cursor: default;
+  }
+
+  .skills-list::before {
+    content: "";
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(156, 27, 255, 0.8) 30%,
+      transparent 100%
+    );
+    border-radius: 50%;
+    box-shadow:
+      0 0 15px rgb(225, 0, 255),
+      0 0 30px rgba(204, 0, 255, 0.8),
+      0 0 45px rgb(230, 0, 255);
+    animation: move-light-position 8s ease-in-out infinite;
+    z-index: -1;
+  }
+
+  @keyframes move-light-position {
+    0% {
+      top: -1px;
+      left: -1px;
+    }
+    33% {
+      top: -1px;
+      left: calc(100% - 46px);
+    }
+    50% {
+      top: calc(100% - 46px);
+      left: calc(100% - 46px);
+    }
+    83% {
+      top: calc(100% - 46px);
+      left: -1px;
+    }
+    100% {
+      top: -1px;
+      left: -1px;
+    }
+  }
+  .backgroundimg {
+    position: absolute;
+    top: 0;
+    right: 50%;
+    width: 150px;
+    height: 150px;
+    opacity: 0.5;
+    filter: brightness(0) saturate(100%) invert(60%) hue-rotate(100deg)
+      contrast(45%);
+  }
+  .skill-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-align: center;
+    width: fit-content;
+    height: max-content;
+    color: #c0c0c0;
+    font-family: "Hurmit", sans-serif;
+    background-color: rgba(83, 82, 82, 0.667);
+    border-radius: 10px;
+    box-shadow:
+      0 4px 6px rgb(0 0 0 / 20%),
+      0 0 10px rgb(0 0 0 / 10%);
+    border: 1px solid #ededed5f;
+    padding: 0.5rem 1rem;
+  }
+  .skill-item span {
+    text-align: center;
+    font-size: 0.875rem;
+  }
+  .skill-item img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+  }
+  @media screen and (max-width: 700px) {
+    .skills {
+      margin-top: 15rem;
+    }
+  }
+  @media screen and (max-width: 526px) {
+    .skills {
+      margin-top: 150vh;
+    }
+  }
+  @media screen and (max-height: 526px) {
+    .skills {
+      margin-top: 230vh;
+    }
+  }
+</style>
