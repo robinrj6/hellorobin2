@@ -32,15 +32,17 @@ const fontFaceStyle = `
       color: rgba(135, 210, 135, 0.52);
       border : 1px solid rgba(135, 210, 135, 0.22);
       box-shadow: 0 0px 6px rgba(39, 106, 3, 0.93);
-      
+
+
     }
       a {
         color: rgba(135, 210, 135, 0.72);
       }   
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 900px) {
       #githubContrib {
         container-type: inline-size; 
         width: 100%;    
+        margin-bottom: 2rem;
       }     
     }
 `;
