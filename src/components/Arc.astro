@@ -33,24 +33,26 @@ const timeline = [
 ];
 ---
 
-<section id="arc">
+<div id="arc" style="height:100vh;">
   <StickerNote />
   <ol class="timeline">
-    {timeline.map((item) => (
-      <li class="timeline-item">
-        <div class="bullet" aria-hidden="true"></div>
-        <div class="content">
-          <div class="header">
-            <h2>{item.title}</h2>
-            <span class="role">{item.role}</span>
-            <span class="period">{item.period}</span>
+    {
+      timeline.map((item) => (
+        <li class="timeline-item">
+          <div class="bullet" aria-hidden="true" />
+          <div class="content">
+            <div class="header">
+              <h2>{item.title}</h2>
+              <span class="role">{item.role}</span>
+              <span class="period">{item.period}</span>
+            </div>
+            <p class="description">{item.description}</p>
           </div>
-          <p class="description">{item.description}</p>
-        </div>
-      </li>
-    ))}
+        </li>
+      ))
+    }
   </ol>
-</section>
+</div>
 
 <style>
   @font-face {
@@ -73,7 +75,7 @@ const timeline = [
     align-items: center;
     padding: 5rem 1rem 0 1rem;
     gap: 2rem;
-    overflow: hidden;
+    margin-top: 5rem;
   }
 
   h1 {
@@ -158,6 +160,11 @@ const timeline = [
     color: #8c8c8ce5;
     line-height: 1.5;
   }
+  @media (max-width: 1128px) {
+    #arc {
+      margin-top: 0;
+    }
+  }
 
   @media (max-width: 640px) {
     .timeline-item {
@@ -170,8 +177,6 @@ const timeline = [
       width: 100%;
       margin-left: 0;
     }
-    #arc{
-      overflow: scroll;
-    }
+
   }
 </style>
