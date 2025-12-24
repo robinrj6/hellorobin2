@@ -11,11 +11,11 @@ interface ActivityCalendarClientProps {
 }
 
 const gitHubTheme = {
-  dark: ["#2f2f2fff", "#aceebb", "#4ac26b", "#2da44e", "#116329"],
+  dark: ["#151b23", "#033a16", "#196c2e", "#2ea043", "#56d364"],
 } satisfies ThemeInput;
 
 const defaultLabels = {
-  totalCount: "{{count}} this year so far",
+  totalCount: "{{count}} contributions this year so far",
 };
 
 const fontFaceStyle = `
