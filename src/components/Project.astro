@@ -1,45 +1,179 @@
 ---
 import ProjectOne from "./ProjectOne.astro";
 import GitHubActivity from "./GitHubActivity.astro";
+import projData from "../../public/data/projects.json";
 ---
 
 <div style="margin-top: 10rem; height:100vh;">
-  <div id="container">
-    <ProjectOne
-      id="project"
-      title="Backup Cluster Manager"
-      description="Open Source alternative for managing distributed nodes in a backup cluster environment. Implement Cluster Manager, Backup Manager and nodes Users, nodes, backups to let users interact with the cluster manager interface."
-      link="https://github.com/amosproj/amos2025ws02-backup-cluster-manager"
-    />
-    <ProjectOne
-      title="FFMPEG Batch Video Processor"
-      description="Docker based tool to process multiple videos concurrently with predefined profiles, custom operations, and workflow automation."
-      link="https://github.com/robinrj6/FFmpeg-batch"
-    />
-
-    <ProjectOne
-      title="Youtube Videos Suggestor"
-      description="n8n workflow to suggest youtube videos after assessing the transcript of videos."
-    />
-    <ProjectOne
-      title="PneumoGAN"
-      description="A Python project which detects pneumonia from images of chest X-rays based on generative adversarial networks."
-      link="https://pneumogan.vercel.app/"
-    />
+  <div class="HProject">
+    <div id="container">
+      <div class="left">
+        <div class="file-list">
+          {
+            projData.map((project) => (
+              <button
+                class="file"
+                type="button"
+                data-project={project.project}
+                data-open="false"
+                aria-pressed="false"
+              >
+                <img
+                  class="folder-icon"
+                  src="/images/folder.svg"
+                  alt={`${project.project} folder`}
+                  width="80"
+                  height="80"
+                />
+                <p class="pname">{project.project}</p>
+              </button>
+            ))
+          }
+        </div>
+      </div>
+      <div class="right">
+        <div class="project-display" aria-live="polite">
+          <div class="project-card default-card" data-project="__default">
+            <ProjectOne
+              title="Select a project"
+              description="Click a folder to view its description here."
+            />
+          </div>
+          {
+            projData.map((project) => (
+              <div class="project-card hidden" data-project={project.project}>
+                <ProjectOne
+                  title={project.project}
+                  description={project.description}
+                />
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
   </div>
   <span style="display: flex; justify-content: center; margin-bottom: 2rem;">
     <GitHubActivity />
   </span>
 </div>
 
+<script>
+  if (typeof window !== "undefined") {
+    const resetButtons = (buttons) => {
+      buttons.forEach((button) => {
+        button.setAttribute("data-open", "false");
+        button.setAttribute("aria-pressed", "false");
+        const icon = button.querySelector(".folder-icon");
+        if (icon) icon.src = "/images/folder.svg";
+      });
+    };
+
+    const hideAllCards = (cards) => {
+      cards.forEach((card) => card.classList.add("hidden"));
+    };
+
+    document.addEventListener("click", (event) => {
+      const btn = event.target.closest?.(".file");
+      if (!btn) return;
+
+      const buttons = Array.from(document.querySelectorAll(".file"));
+      const cards = Array.from(document.querySelectorAll(".project-card"));
+      const defaultCard = document.querySelector(
+        '.project-card[data-project="__default"]'
+      );
+      const targetProject = btn.getAttribute("data-project");
+      if (!targetProject) return;
+
+      const isOpen = btn.getAttribute("data-open") === "true";
+      const nextState = !isOpen;
+
+      resetButtons(buttons);
+      hideAllCards(cards);
+
+      if (defaultCard) defaultCard.classList.add("hidden");
+
+      if (nextState) {
+        btn.setAttribute("data-open", "true");
+        btn.setAttribute("aria-pressed", "true");
+        const icon = btn.querySelector(".folder-icon");
+        if (icon) icon.src = "/images/open-folder.svg";
+
+        const match = cards.find(
+          (card) => card.getAttribute("data-project") === targetProject
+        );
+        if (match) match.classList.remove("hidden");
+      } else if (defaultCard) {
+        defaultCard.classList.remove("hidden");
+      }
+    });
+  }
+</script>
+
 <style>
+  @font-face {
+    font-family: "Hurmit";
+    src: url("/src/assets/fonts/HurmitNerdFont-Regular.otf") format("opentype");
+  }
   #container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    justify-items: center;
+    flex-direction: row;
+    margin-top: 4rem;
+    width: 80vw;
+  }
+  .right {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    align-items: center;
+    margin-left: auto;
+  }
+  .left {
+    display: flex;
+    flex-direction: column;
+    padding-right: 4rem;
+    border-right: 2px solid #63636348;
+  }
+  .file-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .file {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: row;
-    gap: 2rem;
-    width: 100%;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  .file:focus-visible {
+    outline: 2px solid #8c8c8c;
+    border-radius: 8px;
+  }
+  .folder-icon {
+    filter: invert(83%) sepia(8%) saturate(0%) hue-rotate(170deg)
+      brightness(70%) contrast(87%);
+  }
+  .pname {
+    color: #8c8c8c;
+    margin: 0;
+    font-family: Hurmit, sans-serif;
+    font-size: 1rem;
+    text-align: center;
+  }
+  .project-display {
+    display: flex;
+    justify-content: center;
+  }
+
+  .project-card.hidden {
+    display: none !important;
   }
   h1 {
     color: #b6b6b6;
@@ -52,22 +186,51 @@ import GitHubActivity from "./GitHubActivity.astro";
   @media screen and (max-width: 1502px) {
     #container {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      width: auto;
+      grid-template-columns: 1fr 2fr;
+      width: 80%;
     }
   }
   @media screen and (max-width: 1100px) {
     #container {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      width: auto;
+      grid-template-columns: 1fr 2fr;
+      width: 80%;
     }
   }
   @media screen and (max-width: 756px) {
     #container {
-      display: grid;
-      grid-template-columns: 1fr ;
-      width: auto;
+      display: flex;
+      flex-direction: column;
+      width: 90%;
+    }
+    .file-list {
+      display: flex;
+      flex-direction: row;
+      align-items: baseline;
+    }
+    .left {
+      padding-right: unset;
+      border-right: none;
+    }
+    .right {
+      margin-left: unset;
+      width: 100%;
+      margin-top: 2rem;
+    }
+    .HProject {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  @media screen and (max-width: 578px) {
+    .file-list {
+      flex-wrap: wrap;
+      justify-content: center;
+      text-align: left;
+    }
+    .pname{
+      width:5rem;
     }
   }
 </style>

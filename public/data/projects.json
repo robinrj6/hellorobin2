@@ -1,0 +1,18 @@
+[
+    {
+        "project": "Backup Cluster Manager",
+        "description": "Open Source alternative for managing distributed nodes in a backup cluster environment. Implement Cluster Manager, Backup Manager and nodes Users, nodes, backups to let users interact with the cluster manager interface."
+    },
+    {
+        "project": "FFMPEG Batch Video Processor",
+        "description": "Docker based tool to process multiple videos concurrently with predefined profiles, custom operations, and workflow automation."
+    },
+    {
+        "project": "Youtube Videos Suggestor",
+        "description": "n8n workflow to suggest youtube videos after assessing the transcript of videos."
+    },
+    {
+        "project": "PneumoGAN",
+        "description": "A Python project which detects pneumonia from images of chest X-rays based on generative adversarial networks."
+    }
+]
