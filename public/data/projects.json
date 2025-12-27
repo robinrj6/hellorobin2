@@ -1,18 +1,52 @@
 [
     {
         "project": "Backup Cluster Manager",
-        "description": "Open Source alternative for managing distributed nodes in a backup cluster environment. Implement Cluster Manager, Backup Manager and nodes Users, nodes, backups to let users interact with the cluster manager interface."
+        "description": "Open Source alternative for managing distributed nodes in a backup cluster environment. Implement Cluster Manager, Backup Manager and nodes Users, nodes, backups to let users interact with the cluster manager interface. As part of my master's project, I worked in a team of eight, on developing a Backup Cluster Manager that facilitates efficient management of distributed nodes within a backup cluster environment. The system comprises three main components: Cluster Manager, Backup Manager, and Nodes. The Cluster Manager serves as the central interface for users to interact with the backup cluster, allowing them to monitor and manage the overall system. The Backup Manager is responsible for coordinating backup operations across the distributed nodes, ensuring data integrity and reliability. The Nodes are individual units within the cluster that handle data storage and retrieval tasks. Users can create and manage nodes, initiate backup processes, and monitor the status of backups through the Cluster Manager interface. This project aims to provide a robust and user-friendly solution for managing backup clusters, enhancing data protection and recovery capabilities.",
+        "tools": [
+            "TypeScript",
+            "Java",
+            "Angular",
+            "Springboot",
+            "Docker",
+            "PostgreSQL",
+            "Github",
+            "MyBatis"
+        ],
+        "link": "https://github.com/amosproj/amos2025ws02-backup-cluster-manager"
     },
     {
         "project": "FFMPEG Batch Video Processor",
-        "description": "Docker based tool to process multiple videos concurrently with predefined profiles, custom operations, and workflow automation."
+        "description": "Docker based tool to process multiple videos concurrently with predefined profiles, custom operations, and workflow automation. This tool leverages FFMPEG to perform various video processing tasks such as format conversion, resolution adjustment, and bitrate modification. Users can define profiles for different processing needs and apply them to batches of videos, streamlining the workflow and saving time on repetitive tasks. CLI and web interface options are available for user convenience. Batch processing capabilities allow users to handle large volumes of videos efficiently, making it ideal for content creators, video editors, and media professionals.",
+        "tools": [
+            "FFMPEG",
+            "Python",
+            "FastAPI",
+            "Shell",
+            "Dockerfile"
+        ],
+        "link": "https://github.com/robinrj6/FFmpeg-batch"
     },
     {
         "project": "Youtube Videos Suggestor",
-        "description": "n8n workflow to suggest youtube videos after assessing the transcript of videos."
+        "description": "n8n workflow to suggest youtube videos after assessing the transcript of videos. This workflow uses n8n to automate the process of analyzing YouTube video transcripts and generating relevant video suggestions based on the content. By leveraging natural language processing techniques, the workflow can identify key topics and themes within the transcripts, allowing it to recommend videos that align with the viewer's interests. This tool is particularly useful for content creators and marketers looking to enhance viewer engagement by providing personalized video recommendations. I have personalised to recommened videoes from my favaorite channels using Google Gemini API for better results and send me notifications in Discord. n8n is locally hosted via Docker for free and better control.",
+        "tools": [
+            "n8n",
+            "Google Gemini",
+            "JavaScript",
+            "Docker"
+        ],
+        "link": ""
     },
     {
         "project": "PneumoGAN",
-        "description": "A Python project which detects pneumonia from images of chest X-rays based on generative adversarial networks."
+        "description": "A python based project that utilizes Generative Adversarial Networks (GANs) to generate synthetic chest X-ray images for pneumonia detection. The project aims to augment existing medical image datasets by creating realistic synthetic images that can be used to train and improve machine learning models for pneumonia diagnosis. By leveraging GANs, the project seeks to address the challenges of limited data availability in the medical field, ultimately enhancing the accuracy and reliability of pneumonia detection systems. The generated images can help in training deep learning models, leading to better diagnostic tools for healthcare professionals. This was part of my Bacherlor's project, where I worked with 4 team members to develop this solution. Later, a research paper was published based on this project.",
+        "tools": [
+            "Python",
+            "GANs",
+            "NumPy",
+            "Matplotlib",
+            "PyQt5"
+        ],
+        "link": "https://ieeexplore.ieee.org/document/9563341"
     }
 ]

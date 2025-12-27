@@ -45,6 +45,8 @@ import projData from "../../public/data/projects.json";
                 <ProjectOne
                   title={project.project}
                   description={project.description}
+                  tools={project.tools}
+                  link={project.link}
                 />
               </div>
             ))
@@ -60,8 +62,8 @@ import projData from "../../public/data/projects.json";
 
 <script>
   if (typeof window !== "undefined") {
-    const resetButtons = (buttons) => {
-      buttons.forEach((button) => {
+    const resetButtons = (buttons: any[]) => {
+      buttons.forEach((button: { setAttribute: (arg0: string, arg1: string) => void; querySelector: (arg0: string) => any; }) => {
         button.setAttribute("data-open", "false");
         button.setAttribute("aria-pressed", "false");
         const icon = button.querySelector(".folder-icon");
@@ -69,12 +71,12 @@ import projData from "../../public/data/projects.json";
       });
     };
 
-    const hideAllCards = (cards) => {
-      cards.forEach((card) => card.classList.add("hidden"));
+    const hideAllCards = (cards: any[]) => {
+      cards.forEach((card: { classList: { add: (arg0: string) => any; }; }) => card.classList.add("hidden"));
     };
 
     document.addEventListener("click", (event) => {
-      const btn = event.target.closest?.(".file");
+      const btn = (event.target as Element)?.closest?.(".file");
       if (!btn) return;
 
       const buttons = Array.from(document.querySelectorAll(".file"));
@@ -96,7 +98,7 @@ import projData from "../../public/data/projects.json";
       if (nextState) {
         btn.setAttribute("data-open", "true");
         btn.setAttribute("aria-pressed", "true");
-        const icon = btn.querySelector(".folder-icon");
+        const icon = btn.querySelector(".folder-icon") as HTMLImageElement;
         if (icon) icon.src = "/images/open-folder.svg";
 
         const match = cards.find(

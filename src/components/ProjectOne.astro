@@ -11,7 +11,17 @@
           />
         </a>
       )
-    }</span
+    }
+    {
+      Astro.props.tools && (
+        <>
+          <br />
+          <br />
+          <strong>Tools:</strong> {Astro.props.tools.join(", ")}
+        </>
+      )
+    }
+    </span
   >
 </div>
 
@@ -29,6 +39,9 @@
     background-color: #4f00009e;
     min-height: fit-content;
   }
+  strong{
+    font-size: large;
+    }
   h1 {
     color: rgba(182, 182, 182, 0.718);
     height: fit-content;
@@ -48,7 +61,7 @@
       brightness(60%) contrast(87%);
   }
   @media screen and (max-width: 1052px) {
-    span{
+    span {
       padding: 1rem;
     }
     h1 {
