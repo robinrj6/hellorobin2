@@ -50,6 +50,10 @@
     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg"
   },
   {
+    "name": "FastAPI",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg"
+  },
+  {
     "name": "HTML",
     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
   },
@@ -83,7 +87,7 @@
   },
   {
     "name": "AWS",
-    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original.svg"
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg"
   },
   {
     "name": "GCP",
@@ -96,6 +100,10 @@
   {
     "name": "MongoDB",
     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg"
+  },
+  {
+    "name": "SQLAlchemy",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sqlalchemy/sqlalchemy-original.svg"
   },
   {
     "name": "PostgreSQL",
@@ -124,6 +132,18 @@
   {
     "name": "VS Code",
     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg"
+  },
+  {
+    "name": "Prometheus",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/prometheus/prometheus-original.svg"
+  },
+  {
+    "name": "Grafana",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/grafana/grafana-original.svg"
+  },
+  {
+    "name": "Linux",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg"
   },
    {
     "name": "n8n",

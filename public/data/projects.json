@@ -10,9 +10,25 @@
             "Docker",
             "PostgreSQL",
             "Github",
-            "MyBatis"
+            "MyBatis",
+            "Webflux",
+            "Prometheus",
+            "Grafana"
         ],
         "link": "https://github.com/amosproj/amos2025ws02-backup-cluster-manager"
+    },
+    {
+        "project": "Assistant",
+        "description": "Python based project which is an AI chatbot and image generation tool. The chatbot is powered by Gemma3:1b model from ollama and the image generation is done using Stable Diffusion model. The main motive of the project is tool to showcase ControlNet functionality with Stable Diffusion model. The project is a work in progess and the main focus is to create a full stack application with a web interface to interact with the chatbot and image generation tool. The project also includes features like chat history. The backend is build with FastAPI and SQLalchemy and the frontend is yet to be developed. This project uses the least resources possible to run the models locally on a machine with decent hardware. ",
+        "tools": [
+            "Python",
+            "FastAPI",
+            "SQLalchemy",
+            "Ollama Gemma3",
+            "Stable Diffusion",
+            "ControlNet"
+        ],
+        "link": "https://github.com/robinrj6/Assistant"
     },
     {
         "project": "FFMPEG Batch Video Processor",
