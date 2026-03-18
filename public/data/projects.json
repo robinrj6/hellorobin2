@@ -1,5 +1,24 @@
 [
     {
+        "project": "ControlNet Model Reproduction",
+        "description": "Reproduction of the ControlNet paper using HuggingFace Diffusers, trained on the COCO train2017 dataset on an HPC cluster. The project implements two independent conditioning experiments - a Canny edge-based model and a MiDaS depth-based model, each trained from scratch to validate the ControlNet architecture's ability to guide Stable Diffusion generation using structural and geometric signals respectively. The Canny experiment conditions generation on detected edge maps, while the depth experiment uses monocular depth estimation to provide scene geometry as a control signal. Both models were trained under SLURM job scheduling with custom dataset preprocessing pipelines, metadata generation, and VRAM-optimized training configurations. Generation quality was quantitatively evaluated using FID scores, with qualitative analysis of conditioning fidelity across both modalities. The project also involved resolving real-world HPC challenges including disk quota constraints from small-file inflation, learning rate instability, and inference pipeline debugging to ensure correct conditioning application at generation time. Also experimented with an adaptive gated conditioning mechanism to dynamically balance the influence of the control signal during training, which showed promising results in improving generation quality and stability. This project demonstrates the feasibility of reproducing ControlNet's conditioning capabilities using HuggingFace Diffusers and provides insights into effective training strategies for controlled image generation on HPC clusters.",
+        "tools": [
+            "Python",
+            "PyTorch",
+            "HuggingFace Diffusers",
+            "HuggingFace Accelerate",
+            "ControlNet",
+            "Stable Diffusion",
+            "SLURM",
+            "COCO Dataset",
+            "MiDaS",
+            "OpenCV",
+            "Bash",
+            "Linux HPC"
+        ],
+        "link": ""
+    },  
+    {
         "project": "Backup Cluster Manager",
         "description": "Open Source alternative for managing distributed nodes in a backup cluster environment. Implement Cluster Manager, Backup Manager and nodes Users, nodes, backups to let users interact with the cluster manager interface. As part of my master's project, I worked in a team of eight, on developing a Backup Cluster Manager that facilitates efficient management of distributed nodes within a backup cluster environment. The system comprises three main components: Cluster Manager, Backup Manager, and Nodes. The Cluster Manager serves as the central interface for users to interact with the backup cluster, allowing them to monitor and manage the overall system. The Backup Manager is responsible for coordinating backup operations across the distributed nodes, ensuring data integrity and reliability. The Nodes are individual units within the cluster that handle data storage and retrieval tasks. Users can create and manage nodes, initiate backup processes, and monitor the status of backups through the Cluster Manager interface. This project aims to provide a robust and user-friendly solution for managing backup clusters, enhancing data protection and recovery capabilities.",
         "tools": [

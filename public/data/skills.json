@@ -23,6 +23,14 @@
     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/rust/rust-original.svg"
   },
   {
+    "name": "Go",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg"
+  },
+  {
+    "name": "Hugging Face",
+    "icon": "../images/hf-logo.svg"
+  },
+  {
     "name": "React",
     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
   },
@@ -68,6 +76,9 @@
   {
     "name": "Bootstrap",
     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg"
+  },
+  {    "name": "Mapbox",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mapbox/mapbox-original.svg"
   },
    {
     "name": "Ghost",
