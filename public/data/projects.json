@@ -1,7 +1,7 @@
 [
     {
-        "project": "ControlNet Model Reproduction",
-        "description": "Reproduction of the ControlNet paper using HuggingFace Diffusers, trained on the COCO train2017 dataset on an HPC cluster. The project implements two independent conditioning experiments - a Canny edge-based model and a MiDaS depth-based model, each trained from scratch to validate the ControlNet architecture's ability to guide Stable Diffusion generation using structural and geometric signals respectively. The Canny experiment conditions generation on detected edge maps, while the depth experiment uses monocular depth estimation to provide scene geometry as a control signal. Both models were trained under SLURM job scheduling with custom dataset preprocessing pipelines, metadata generation, and VRAM-optimized training configurations. Generation quality was quantitatively evaluated using FID scores, with qualitative analysis of conditioning fidelity across both modalities. The project also involved resolving real-world HPC challenges including disk quota constraints from small-file inflation, learning rate instability, and inference pipeline debugging to ensure correct conditioning application at generation time. Also experimented with an adaptive gated conditioning mechanism to dynamically balance the influence of the control signal during training, which showed promising results in improving generation quality and stability. This project demonstrates the feasibility of reproducing ControlNet's conditioning capabilities using HuggingFace Diffusers and provides insights into effective training strategies for controlled image generation on HPC clusters.",
+        "project": "Adaptive ControlNet",
+        "description": "The Adaptive ControlNet project presents an efficient reproduction and enhancement of the ControlNet framework, aimed at democratizing controllable synthesis. Built on Stable Diffusion v1.5, the model uses Canny edge detection for fine-grained spatial control. This work introduces adaptive gating—an MLP mechanism learning layer-specific weighting via diffusion timestamps—and a CNN-based confidence estimator for signal modulation. Trained on an RTX 3080 with 118K COCO images, the model achieved sudden convergence at approximately 21,000 steps. Results show a Fréchet Inception Distance (FID) of 28.34, outperforming the 37.83 baseline. Crucially, the architectural enhancements improved conditioning fidelity by 15.6% (0.3713 to 0.4294), validating that learned per-layer importance significantly improves structural preservation. This confirms that advanced spatial conditioning can be iteratively improved and trained effectively on consumer hardware using limited resources.",
         "tools": [
             "Python",
             "PyTorch",
@@ -13,10 +13,11 @@
             "COCO Dataset",
             "MiDaS",
             "OpenCV",
+            "Scikit-learn",
             "Bash",
             "Linux HPC"
         ],
-        "link": ""
+        "link": "https://github.com/robinrj6/Adaptive-ControlNet"
     },  
     {
         "project": "Backup Cluster Manager",
