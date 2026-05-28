@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from "astro/config";
+import { defineConfig, sessionDrivers } from "astro/config";
 
 import react from "@astrojs/react";
 import cloudflare from "@astrojs/cloudflare";
@@ -8,5 +8,8 @@ import cloudflare from "@astrojs/cloudflare";
 export default defineConfig({
   site: "https://hellorobin.cc",
   integrations: [react()],
+  session: {
+    driver: sessionDrivers.lruCache(),
+  },
   adapter: cloudflare(),
 });
