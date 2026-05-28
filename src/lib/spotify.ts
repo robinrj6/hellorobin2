@@ -238,6 +238,10 @@ async function getNowPlaying(accessToken: string): Promise<SpotifyNowPlaying | n
       return null;
     }
 
+    if (!data.is_playing) {
+      return null;
+    }
+
     const artists = (data.item.artists ?? [])
       .map((artist) => artist.name?.trim())
       .filter((name): name is string => Boolean(name))
