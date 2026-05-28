@@ -5,29 +5,27 @@ const { stats, error } = await getSpotifyStats();
 ---
 
 <section class="spotify" aria-label="Spotify listening stats">
-  <div class="heading-row">
-    {<div class="profile-row">
-          {
-            stats.avatarUrl && (
-              <img
-                src={stats.avatarUrl}
-                alt={`${stats.profileName} Spotify profile`}
-                width="56"
-                height="56"
-              />
-            )
-          }
-          <a href={stats.profileUrl} target="_blank" rel="noopener noreferrer">
-            {stats.profileName}'s Spotify
-          </a>
-        </div>
-        }
-    <span class="status-pill">Live</span>
-  </div>
-
   {
     stats ? (
       <>
+        <div class="heading-row">
+          <div class="profile-row">
+            {
+              stats.avatarUrl && (
+                <img
+                  src={stats.avatarUrl}
+                  alt={`${stats.profileName} Spotify profile`}
+                  width="56"
+                  height="56"
+                />
+              )
+            }
+            <a href={stats.profileUrl} target="_blank" rel="noopener noreferrer">
+              {stats.profileName}'s Spotify
+            </a>
+          </div>
+          <span class="status-pill">Live</span>
+        </div>
         <article class="card now-playing-card">
           <h3>Now Playing</h3>
           {
@@ -328,8 +326,54 @@ const { stats, error } = await getSpotifyStats();
   }
 
   @media (max-width: 700px) {
+    .spotify {
+      padding: 1rem;
+      border-radius: 14px;
+      margin-top: 1.25rem;
+    }
+
+    .heading-row {
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .profile-row {
+      flex-wrap: wrap;
+    }
+
+    .profile-row img {
+      width: 42px;
+      height: 42px;
+    }
+
     .grid {
       grid-template-columns: 1fr;
+    }
+
+    .now-playing-content img {
+      width: 48px;
+      height: 48px;
+    }
+
+    .now-playing-meta strong {
+      font-size: 0.88rem;
+    }
+
+    .card h3 {
+      font-size: 0.92rem;
+    }
+
+    .genres li {
+      font-size: 0.72rem;
+      padding: 0.25rem 0.5rem;
+    }
+
+    .tracks strong {
+      font-size: 0.84rem;
+    }
+
+    .tracks span {
+      font-size: 0.75rem;
     }
   }
 </style>
