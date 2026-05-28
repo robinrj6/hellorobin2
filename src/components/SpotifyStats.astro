@@ -1,0 +1,194 @@
+---
+import { getSpotifyStats } from "../lib/spotify";
+
+const { stats, error } = await getSpotifyStats();
+---
+
+<section class="spotify" aria-label="Spotify listening stats">
+  <h2>Spotify Stats</h2>
+
+  {
+    stats ? (
+      <>
+        <div class="profile-row">
+          {
+            stats.avatarUrl && (
+              <img
+                src={stats.avatarUrl}
+                alt={`${stats.profileName} Spotify profile`}
+                width="56"
+                height="56"
+              />
+            )
+          }
+          <a href={stats.profileUrl} target="_blank" rel="noopener noreferrer">
+            {stats.profileName}
+          </a>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <h3>Top Genres</h3>
+            <ul class="genres">
+              {stats.topGenres.map((genre) => <li>{genre}</li>)}
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Top Tracks</h3>
+            <ul class="tracks">
+              {stats.topTracks.map((track) => (
+                <li>
+                  {
+                    track.url ? (
+                      <a href={track.url} target="_blank" rel="noopener noreferrer">
+                        <strong>{track.name}</strong>
+                        <span>{track.artists}</span>
+                      </a>
+                    ) : (
+                      <>
+                        <strong>{track.name}</strong>
+                        <span>{track.artists}</span>
+                      </>
+                    )
+                  }
+                </li>
+              ))}
+            </ul>
+          </article>
+        </div>
+      </>
+    ) : (
+      <p class="fallback">
+        Spotify stats are unavailable right now.
+        {error ? ` ${error}` : ""}
+      </p>
+    )
+  }
+</section>
+
+<style>
+  .spotify {
+    margin-top: 2rem;
+    padding: 1.25rem;
+    border-radius: 14px;
+    background: rgba(30, 24, 24, 0.6);
+    border: 1px solid rgba(188, 188, 188, 0.18);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 25%);
+    max-width: 760px;
+    margin-inline: auto;
+  }
+
+  .spotify h2 {
+    margin: 0 0 1rem;
+    color: #d0d0d0;
+    font-size: 1.35rem;
+    text-align: left;
+  }
+
+  .profile-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .profile-row img {
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+  }
+
+  .profile-row a {
+    color: #b6b6b6;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .profile-row a:hover {
+    text-decoration: underline;
+  }
+
+  .grid {
+    display: grid;
+    gap: 0.9rem;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .card {
+    background: rgba(73, 67, 67, 0.36);
+    border: 1px solid rgba(227, 227, 227, 0.2);
+    border-radius: 12px;
+    padding: 0.9rem;
+  }
+
+  .card h3 {
+    margin: 0 0 0.7rem;
+    font-size: 1rem;
+    color: #c8c8c8;
+    text-align: left;
+  }
+
+  .genres,
+  .tracks {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .genres {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .genres li {
+    font-size: 0.78rem;
+    color: #e4e4e4;
+    background: rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+    padding: 0.3rem 0.6rem;
+    text-transform: capitalize;
+  }
+
+  .tracks li {
+    text-align: left;
+  }
+
+  .tracks a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .tracks strong {
+    display: block;
+    color: #efefef;
+    font-size: 0.9rem;
+    margin-bottom: 0.1rem;
+  }
+
+  .tracks span {
+    color: #afafaf;
+    font-size: 0.8rem;
+  }
+
+  .tracks li:hover strong {
+    text-decoration: underline;
+  }
+
+  .fallback {
+    margin: 0;
+    color: #a9a9a9;
+    text-align: left;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 700px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
