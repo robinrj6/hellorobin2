@@ -40,6 +40,8 @@ type SpotifyNowPlayingResponse = {
   };
 };
 
+type SpotifyPlayerResponse = SpotifyNowPlayingResponse;
+
 type SpotifyNowPlaying = {
   isPlaying: boolean;
   trackName: string;
@@ -147,6 +149,7 @@ async function spotifyGet<T>(
   path: string
 ): Promise<{ data: T | null; error: string | null }> {
   const response = await fetch(`${SPOTIFY_API_BASE}${path}`, {
+    cache: "no-store",
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
@@ -218,29 +221,11 @@ async function getArtistsByIds(
 }
 
 async function getNowPlaying(accessToken: string): Promise<SpotifyNowPlaying | null> {
-  try {
-    const response = await fetch(`${SPOTIFY_API_BASE}/me/player/currently-playing`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    if (response.status === 204 || response.status === 202) {
-      return null;
-    }
-
-    if (!response.ok) {
-      return null;
-    }
-
-    const data = (await response.json()) as SpotifyNowPlayingResponse;
-    if (data.currently_playing_type !== "track" || !data.item?.name) {
-      return null;
-    }
-
-    if (!data.is_playing) {
-      return null;
-    }
+  const toNowPlaying = (
+    data: SpotifyNowPlayingResponse | null | undefined
+  ): SpotifyNowPlaying | null => {
+    if (!data) return null;
+    if (data.currently_playing_type !== "track" || !data.item?.name) return null;
 
     const artists = (data.item.artists ?? [])
       .map((artist) => artist.name?.trim())
@@ -254,6 +239,24 @@ async function getNowPlaying(accessToken: string): Promise<SpotifyNowPlaying | n
       url: data.item.external_urls?.spotify ?? null,
       albumArtUrl: data.item.album?.images?.[0]?.url ?? null,
     };
+  };
+
+  try {
+    const currentResponse = await fetch(`${SPOTIFY_API_BASE}/me/player/currently-playing`, {
+      cache: "no-store",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (currentResponse.ok && currentResponse.status !== 204 && currentResponse.status !== 202) {
+      const currentData = (await currentResponse.json()) as SpotifyNowPlayingResponse;
+      const activeTrack = toNowPlaying(currentData);
+      if (activeTrack) return activeTrack;
+    }
+
+    const playerResult = await spotifyGet<SpotifyPlayerResponse>(accessToken, "/me/player");
+    return toNowPlaying(playerResult.data);
   } catch {
     return null;
   }
