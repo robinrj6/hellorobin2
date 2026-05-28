@@ -5,12 +5,8 @@ const { stats, error } = await getSpotifyStats();
 ---
 
 <section class="spotify" aria-label="Spotify listening stats">
-  <h2>Spotify Stats</h2>
-
-  {
-    stats ? (
-      <>
-        <div class="profile-row">
+  <div class="heading-row">
+    {<div class="profile-row">
           {
             stats.avatarUrl && (
               <img
@@ -22,15 +18,61 @@ const { stats, error } = await getSpotifyStats();
             )
           }
           <a href={stats.profileUrl} target="_blank" rel="noopener noreferrer">
-            {stats.profileName}
+            {stats.profileName}'s Spotify
           </a>
         </div>
+        }
+    <span class="status-pill">Live</span>
+  </div>
+
+  {
+    stats ? (
+      <>
+        <article class="card now-playing-card">
+          <h3>Now Playing</h3>
+          {
+            stats.nowPlaying ? (
+              <div class="now-playing-content">
+                {
+                  stats.nowPlaying.albumArtUrl && (
+                    <img
+                      src={stats.nowPlaying.albumArtUrl}
+                      alt={`${stats.nowPlaying.trackName} album art`}
+                      width="56"
+                      height="56"
+                    />
+                  )
+                }
+                <div class="now-playing-meta">
+                  <span class="playing-state">
+                    <span class={stats.nowPlaying.isPlaying ? "dot dot--live" : "dot"}></span>
+                    {stats.nowPlaying.isPlaying ? "Playing now" : "Paused"}
+                  </span>
+                  {
+                    stats.nowPlaying.url ? (
+                      <a href={stats.nowPlaying.url} target="_blank" rel="noopener noreferrer">
+                        <strong>{stats.nowPlaying.trackName}</strong>
+                      </a>
+                    ) : (
+                      <strong>{stats.nowPlaying.trackName}</strong>
+                    )
+                  }
+                  <span>{stats.nowPlaying.artists}</span>
+                </div>
+              </div>
+            ) : (
+              <p class="now-playing-idle">Nothing playing right now.</p>
+            )
+          }
+        </article>
 
         <div class="grid">
           <article class="card">
-            <h3>Top Genres</h3>
+            <h3>{stats.topGenres.length ? "Top Genres" : "Top Artists"}</h3>
             <ul class="genres">
-              {stats.topGenres.map((genre) => <li>{genre}</li>)}
+              {(stats.topGenres.length ? stats.topGenres : stats.topArtists).map((genre) => (
+                <li>{genre}</li>
+              ))}
             </ul>
           </article>
 
@@ -70,20 +112,47 @@ const { stats, error } = await getSpotifyStats();
 <style>
   .spotify {
     margin-top: 2rem;
-    padding: 1.25rem;
-    border-radius: 14px;
-    background: rgba(30, 24, 24, 0.6);
-    border: 1px solid rgba(188, 188, 188, 0.18);
-    box-shadow: 0 8px 24px rgb(0 0 0 / 25%);
+    padding: 1.25rem 1.25rem 1.35rem;
+    font-family: 'Courier New', Courier, monospace;
+    border-radius: 18px;
+    background:
+      radial-gradient(circle at top right, rgba(29, 185, 84, 0.18), transparent 42%),
+      linear-gradient(160deg, rgba(17, 17, 17, 0.92), rgba(9, 9, 9, 0.88));
+    border: 1px solid rgba(29, 185, 84, 0.32);
+    box-shadow: 0 16px 30px rgb(0 0 0 / 35%), inset 0 1px 0 rgb(255 255 255 / 7%);
     max-width: 760px;
     margin-inline: auto;
   }
 
+  .heading-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+
   .spotify h2 {
-    margin: 0 0 1rem;
-    color: #d0d0d0;
+    margin: 0;
+    color: #f7f7f7;
     font-size: 1.35rem;
+    letter-spacing: 0.02em;
     text-align: left;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #101910;
+    background: #1db954;
+    border-radius: 999px;
+    padding: 0.3rem 0.62rem;
+    box-shadow: 0 0 18px rgba(29, 185, 84, 0.35);
   }
 
   .profile-row {
@@ -95,11 +164,12 @@ const { stats, error } = await getSpotifyStats();
 
   .profile-row img {
     border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(29, 185, 84, 0.58);
+    box-shadow: 0 8px 16px rgb(0 0 0 / 35%);
   }
 
   .profile-row a {
-    color: #b6b6b6;
+    color: #d8fbe4;
     text-decoration: none;
     font-weight: 600;
   }
@@ -114,9 +184,80 @@ const { stats, error } = await getSpotifyStats();
     grid-template-columns: 1fr 1fr;
   }
 
+  .now-playing-card {
+    margin-bottom: 0.9rem;
+  }
+
+  .now-playing-content {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .now-playing-content img {
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .now-playing-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    text-align: left;
+  }
+
+  .playing-state {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #a4cab2;
+  }
+
+  .dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 999px;
+    background: #5f7669;
+    display: inline-block;
+  }
+
+  .dot--live {
+    background: #1db954;
+    box-shadow: 0 0 0.4rem rgba(29, 185, 84, 0.85);
+  }
+
+  .now-playing-meta a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .now-playing-meta a:hover strong {
+    color: #1db954;
+  }
+
+  .now-playing-meta strong {
+    color: #f0fff5;
+    font-size: 0.95rem;
+  }
+
+  .now-playing-meta span {
+    color: #9db6a7;
+    font-size: 0.82rem;
+  }
+
+  .now-playing-idle {
+    margin: 0;
+    color: #9db6a7;
+    text-align: left;
+    font-size: 0.86rem;
+  }
+
   .card {
-    background: rgba(73, 67, 67, 0.36);
-    border: 1px solid rgba(227, 227, 227, 0.2);
+    background: linear-gradient(165deg, rgba(32, 32, 32, 0.76), rgba(20, 20, 20, 0.72));
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     padding: 0.9rem;
   }
@@ -124,7 +265,7 @@ const { stats, error } = await getSpotifyStats();
   .card h3 {
     margin: 0 0 0.7rem;
     font-size: 1rem;
-    color: #c8c8c8;
+    color: #c6f5d6;
     text-align: left;
   }
 
@@ -146,11 +287,11 @@ const { stats, error } = await getSpotifyStats();
 
   .genres li {
     font-size: 0.78rem;
-    color: #e4e4e4;
-    background: rgba(255, 255, 255, 0.09);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #d7ffe6;
+    background: rgba(29, 185, 84, 0.16);
+    border: 1px solid rgba(29, 185, 84, 0.45);
     border-radius: 999px;
-    padding: 0.3rem 0.6rem;
+    padding: 0.32rem 0.65rem;
     text-transform: capitalize;
   }
 
@@ -165,23 +306,23 @@ const { stats, error } = await getSpotifyStats();
 
   .tracks strong {
     display: block;
-    color: #efefef;
+    color: #f0fff5;
     font-size: 0.9rem;
     margin-bottom: 0.1rem;
   }
 
   .tracks span {
-    color: #afafaf;
+    color: #9db6a7;
     font-size: 0.8rem;
   }
 
   .tracks li:hover strong {
-    text-decoration: underline;
+    color: #1db954;
   }
 
   .fallback {
     margin: 0;
-    color: #a9a9a9;
+    color: #adb6b0;
     text-align: left;
     line-height: 1.5;
   }

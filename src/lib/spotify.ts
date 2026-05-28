@@ -3,6 +3,7 @@ type SpotifyImage = {
 };
 
 type SpotifyArtist = {
+  id?: string;
   name: string;
   genres?: string[];
   images?: SpotifyImage[];
@@ -10,7 +11,7 @@ type SpotifyArtist = {
 
 type SpotifyTrack = {
   name: string;
-  artists: Array<{ name: string }>;
+  artists: Array<{ id?: string; name: string }>;
   external_urls?: { spotify?: string };
 };
 
@@ -24,11 +25,36 @@ type SpotifyTopResponse<T> = {
   items: T[];
 };
 
+type SpotifyArtistsResponse = {
+  artists: SpotifyArtist[];
+};
+
+type SpotifyNowPlayingResponse = {
+  is_playing?: boolean;
+  currently_playing_type?: string;
+  item?: {
+    name?: string;
+    artists?: Array<{ name?: string }>;
+    external_urls?: { spotify?: string };
+    album?: { images?: SpotifyImage[] };
+  };
+};
+
+type SpotifyNowPlaying = {
+  isPlaying: boolean;
+  trackName: string;
+  artists: string;
+  url: string | null;
+  albumArtUrl: string | null;
+};
+
 export type SpotifyStats = {
   profileName: string;
   profileUrl: string;
   avatarUrl: string | null;
+  nowPlaying: SpotifyNowPlaying | null;
   topGenres: string[];
+  topArtists: string[];
   topTracks: Array<{
     name: string;
     artists: string;
@@ -164,6 +190,71 @@ function computeTopGenres(artists: SpotifyArtist[], limit = 8): string[] {
     .map(([genre]) => genre);
 }
 
+function collectArtistIdsFromTracks(tracks: SpotifyTrack[], limit = 20): string[] {
+  const ids = new Set<string>();
+
+  for (const track of tracks) {
+    for (const artist of track.artists) {
+      if (!artist.id) continue;
+      ids.add(artist.id);
+      if (ids.size >= limit) {
+        return [...ids];
+      }
+    }
+  }
+
+  return [...ids];
+}
+
+async function getArtistsByIds(
+  accessToken: string,
+  artistIds: string[]
+): Promise<SpotifyArtist[]> {
+  if (!artistIds.length) return [];
+
+  const path = `/artists?ids=${artistIds.map(encodeURIComponent).join(",")}`;
+  const result = await spotifyGet<SpotifyArtistsResponse>(accessToken, path);
+  return result.data?.artists ?? [];
+}
+
+async function getNowPlaying(accessToken: string): Promise<SpotifyNowPlaying | null> {
+  try {
+    const response = await fetch(`${SPOTIFY_API_BASE}/me/player/currently-playing`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (response.status === 204 || response.status === 202) {
+      return null;
+    }
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const data = (await response.json()) as SpotifyNowPlayingResponse;
+    if (data.currently_playing_type !== "track" || !data.item?.name) {
+      return null;
+    }
+
+    const artists = (data.item.artists ?? [])
+      .map((artist) => artist.name?.trim())
+      .filter((name): name is string => Boolean(name))
+      .join(", ");
+
+    return {
+      isPlaying: Boolean(data.is_playing),
+      trackName: data.item.name,
+      artists,
+      url: data.item.external_urls?.spotify ?? null,
+      albumArtUrl: data.item.album?.images?.[0]?.url ?? null,
+    };
+  } catch {
+    return null;
+  }
+}
+
 export async function getSpotifyStats(): Promise<SpotifyStatsResult> {
   try {
     const tokenResult = await getAccessToken();
@@ -171,16 +262,17 @@ export async function getSpotifyStats(): Promise<SpotifyStatsResult> {
       return { stats: null, error: tokenResult.error };
     }
 
-    const [profileResult, topArtistsResult, topTracksResult] = await Promise.all([
+    const [profileResult, topArtistsResult, topTracksResult, nowPlaying] = await Promise.all([
       spotifyGet<SpotifyProfile>(tokenResult.token, "/me"),
       spotifyGet<SpotifyTopResponse<SpotifyArtist>>(
         tokenResult.token,
-        "/me/top/artists?time_range=medium_term&limit=12"
+        "/me/top/artists?time_range=medium_term&limit=20"
       ),
       spotifyGet<SpotifyTopResponse<SpotifyTrack>>(
         tokenResult.token,
         "/me/top/tracks?time_range=medium_term&limit=5"
       ),
+      getNowPlaying(tokenResult.token),
     ]);
 
     const profile = profileResult.data;
@@ -192,14 +284,22 @@ export async function getSpotifyStats(): Promise<SpotifyStatsResult> {
       return { stats: null, error: error ?? "Spotify data is unavailable." };
     }
 
-    const topGenres = computeTopGenres(topArtists.items);
+    let topGenres = computeTopGenres(topArtists.items);
+
+    if (!topGenres.length) {
+      const trackArtistIds = collectArtistIdsFromTracks(topTracks.items);
+      const artistsFromTracks = await getArtistsByIds(tokenResult.token, trackArtistIds);
+      topGenres = computeTopGenres(artistsFromTracks);
+    }
 
     return {
       stats: {
         profileName: profile.display_name ?? "My Spotify",
         profileUrl: profile.external_urls?.spotify ?? "https://open.spotify.com",
         avatarUrl: profile.images?.[0]?.url ?? null,
+        nowPlaying,
         topGenres,
+        topArtists: topArtists.items.slice(0, 15).map((artist) => artist.name),
         topTracks: topTracks.items.map((track) => ({
           name: track.name,
           artists: track.artists.map((artist) => artist.name).join(", "),
