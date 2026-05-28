@@ -27,8 +27,8 @@
     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg"
   },
   {
-    "name": "Hugging Face",
-    "icon": "../images/hf-logo.svg"
+    "name": "Android Studio",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/androidstudio/androidstudio-original.svg"
   },
   {
     "name": "React",
@@ -60,6 +60,10 @@
   {
     "name": "FastAPI",
     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg"
+  },
+  {
+    "name": "Hugging Face",
+    "icon": "../images/hf-logo.svg"
   },
   {
     "name": "HTML",

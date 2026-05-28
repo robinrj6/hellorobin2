@@ -3,7 +3,7 @@ import skillsData from "../../public/data/skills.json";
 ---
 
 <div class="skills">
-  <h1>Skills That Keep the Lights On ⚡</h1>
+  <h1>Skills That Keep the Lights On ⚡️</h1>
   <img
     src="/images/lightning.svg"
     alt="Know Me Icon"
@@ -24,6 +24,12 @@ import skillsData from "../../public/data/skills.json";
 </div>
 
 <style>
+  @property --border-angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+  }
+
   @font-face {
     font-family: "Hurmit";
     src: url("/src/assets/fonts/HurmitNerdFont-Regular.otf") format("opentype");
@@ -43,6 +49,7 @@ import skillsData from "../../public/data/skills.json";
   }
 
   .skills-list {
+    --border-angle: 0deg;
     list-style: none;
     display: flex;
     flex-wrap: wrap;
@@ -52,53 +59,29 @@ import skillsData from "../../public/data/skills.json";
     column-gap: 1rem;
     width: 65vw;
     max-height: 80vh;
-    background-color: rgba(42, 33, 26, 0.979);
     border-radius: 12px;
     position: relative;
-    border: 3px solid #63636348;
+    border: 3px solid transparent;
     cursor: default;
+    background:
+      linear-gradient(rgba(42, 33, 26, 1), rgba(42, 33, 26, 1))
+        padding-box,
+      conic-gradient(
+        from var(--border-angle),
+        rgba(255, 255, 255, 0.1) 0deg,
+        rgba(255, 255, 255, 0.1) 320deg,
+        rgba(182, 82, 255, 0.95) 338deg,
+        rgba(255, 255, 255, 1) 349deg,
+        rgba(182, 82, 255, 0.95) 356deg,
+        rgba(255, 255, 255, 0.1) 360deg
+      ) border-box;
+    box-shadow: 0 0 20px rgba(182, 82, 255, 0.12);
+    animation: border-flow 4s linear infinite;
   }
 
-  .skills-list::before {
-    content: "";
-    position: absolute;
-    width: 48px;
-    height: 48px;
-    background: radial-gradient(
-      circle,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(156, 27, 255, 0.8) 30%,
-      transparent 100%
-    );
-    border-radius: 50%;
-    box-shadow:
-      0 0 15px rgb(225, 0, 255),
-      0 0 30px rgba(204, 0, 255, 0.8),
-      0 0 45px rgb(230, 0, 255);
-    animation: move-light-position 8s ease-in-out infinite;
-    z-index: -1;
-  }
-
-  @keyframes move-light-position {
-    0% {
-      top: -1px;
-      left: -1px;
-    }
-    33% {
-      top: -1px;
-      left: calc(100% - 46px);
-    }
-    50% {
-      top: calc(100% - 46px);
-      left: calc(100% - 46px);
-    }
-    83% {
-      top: calc(100% - 46px);
-      left: -1px;
-    }
-    100% {
-      top: -1px;
-      left: -1px;
+  @keyframes border-flow {
+    to {
+      --border-angle: 360deg;
     }
   }
   .backgroundimg {
@@ -129,7 +112,51 @@ import skillsData from "../../public/data/skills.json";
       0 0 10px rgb(0 0 0 / 10%);
     border: 1px solid #ededed5f;
     padding: 0.5rem 1rem;
+    position: relative;
+    overflow: hidden;
   }
+  .skill-item:hover {
+    background-color: rgba(83, 82, 82, 0.8);
+    box-shadow:
+      0 4px 6px rgb(0 0 0 / 30%),
+      0 0 15px rgb(0 0 0 / 20%);
+    border: 1px solid #ededed9f;
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+  }
+
+  .skill-item::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -140%;
+    width: 45%;
+    height: 100%;
+    background: linear-gradient(
+      110deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.75) 50%,
+      transparent 100%
+    );
+    transform: skewX(-20deg);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .skill-item:hover::after {
+    opacity: 1;
+    animation: silver-flash 0.7s ease-out 1;
+  }
+
+  @keyframes silver-flash {
+    0% {
+      left: -140%;
+    }
+    100% {
+      left: 140%;
+    }
+  }
+
   .skill-item span {
     text-align: center;
     font-size: 0.875rem;

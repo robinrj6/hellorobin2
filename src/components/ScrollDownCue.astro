@@ -1,0 +1,98 @@
+---
+import { ChevronDown } from "@lucide/astro";
+---
+
+<div class="scroll-down-divider" aria-label="Scroll down for more content">
+  <span class="scroll-down-arrow" aria-hidden="true">
+    <ChevronDown size={20} stroke-width={2.5} />
+  </span>
+  <span class="scroll-down-arrow" aria-hidden="true">
+    <ChevronDown size={20} stroke-width={2.5} />
+  </span>
+  <span class="scroll-down-arrow" aria-hidden="true">
+    <ChevronDown size={20} stroke-width={2.5} />
+  </span>
+</div>
+
+<script>
+  const scrollCue = document.querySelector(".scroll-down-divider");
+
+  const isPageScrollable = () =>
+    document.documentElement.scrollHeight > window.innerHeight + 20;
+
+  const updateScrollCue = () => {
+    if (!scrollCue) return;
+
+    if (!isPageScrollable()) {
+      scrollCue.classList.add("is-hidden");
+      return;
+    }
+
+    scrollCue.classList.toggle("is-hidden", window.scrollY > 20);
+  };
+
+  updateScrollCue();
+  window.addEventListener("scroll", updateScrollCue, { passive: true });
+  window.addEventListener("resize", updateScrollCue, { passive: true });
+  window.addEventListener("astro:unload", () => {
+    window.removeEventListener("scroll", updateScrollCue);
+    window.removeEventListener("resize", updateScrollCue);
+  });
+</script>
+
+<style>
+  .scroll-down-divider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    position: fixed;
+    left: 50%;
+    bottom: 2rem;
+    transform: translateX(-50%);
+    z-index: 90;
+    color: rgba(255, 255, 255, 0.6);
+    pointer-events: none;
+    opacity: 1;
+    transition:
+      opacity 0.25s ease,
+      transform 0.25s ease;
+  }
+
+  .scroll-down-divider.is-hidden {
+    opacity: 0;
+    transform: translateX(-50%) translateY(8px);
+  }
+
+  .scroll-down-arrow {
+    display: flex;
+    line-height: 0;
+    font-size: 1.2rem;
+    animation: scroll-bounce 1.5s ease-in-out infinite;
+  }
+
+  .scroll-down-arrow + .scroll-down-arrow {
+    margin-top: -0.35rem;
+  }
+
+  .scroll-down-arrow:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  .scroll-down-arrow:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+
+  @keyframes scroll-bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.55;
+    }
+    50% {
+      transform: translateY(6px);
+      opacity: 1;
+    }
+  }
+</style>

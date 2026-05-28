@@ -1,5 +1,6 @@
 ---
 import background from "../../public/images/background.svg";
+import ScrollDownCue from "../components/ScrollDownCue.astro";
 ---
 
 <!doctype html>
@@ -14,6 +15,7 @@ import background from "../../public/images/background.svg";
   <body>
       <img id="background" src={background.src} alt="" fetchpriority="high" />
       <slot />
+      <ScrollDownCue />
   </body>
 </html>
 

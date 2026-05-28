@@ -2,7 +2,7 @@
 const { pathname } = Astro.url;
 ---
 
-<nav id="site-nav" class="nav">
+<nav id="site-nav" class="nav nav--bg">
   <ul>
     <li><a href="/" class={pathname === "/" ? "active" : ""}>Home</a></li>
     <li>
@@ -24,12 +24,37 @@ const { pathname } = Astro.url;
 
 <script>
   const nav = document.getElementById("site-nav");
-  const onScroll = () => nav?.classList.toggle("nav--bg", window.scrollY > 50);
-  onScroll();
-  window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("astro:unload", () =>
-    window.removeEventListener("scroll", onScroll)
-  );
+  const onNavClick = (event: MouseEvent) => {
+    const link = event.currentTarget;
+    if (!(link instanceof HTMLAnchorElement)) return;
+
+    const isModifiedClick =
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey ||
+      event.button !== 0;
+
+    if (isModifiedClick || link.target === "_blank") return;
+    if (link.pathname === window.location.pathname) return;
+
+    event.preventDefault();
+
+    const currentActive = nav?.querySelector("a.active");
+    currentActive?.classList.remove("active");
+    link.classList.add("active");
+
+    window.setTimeout(() => {
+      window.location.assign(link.href);
+    }, 180);
+  };
+
+  const links = nav?.querySelectorAll("a") ?? [];
+
+  links.forEach((link) => link.addEventListener("click", onNavClick));
+  window.addEventListener("astro:unload", () => {
+    links.forEach((link) => link.removeEventListener("click", onNavClick));
+  });
 </script>
 
 <style>
@@ -51,6 +76,7 @@ const { pathname } = Astro.url;
     font-family: Neighbor, sans-serif;
     font-weight: 400;
     z-index: 100;
+    transition: all 0.3s ease-in-out;
 
   }
   .nav--bg {
@@ -106,6 +132,12 @@ const { pathname } = Astro.url;
     text-decoration: none;
     position: relative;
     font-size: 1rem;
+    display: inline-block;
+    transform: scale(1);
+    transform-origin: center bottom;
+    transition:
+      transform 0.22s ease-out,
+      color 0.25s ease-in-out;
   }
 
   a::after {
@@ -127,7 +159,9 @@ const { pathname } = Astro.url;
   }
 
   a.active {
-    font-size: 1.25rem;
+    transform: scale(1.18);
+    transition-duration: 0.28s;
+    transition-timing-function: ease-in-out;
   }
 
   @media screen and (max-width: 906px) {
