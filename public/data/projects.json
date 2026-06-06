@@ -1,5 +1,27 @@
 [
     {
+        "project": "Connect: Android App",
+        "description": "A minimalist Android app that lets you send pre-defined mood emojis to close friends and family in real time. Built in 7 days as a personal challenge to ship a finished product from scratch. Features Google authentication, friend requests, and live emoji updates via Firebase.",
+        "tools": [
+            "Kotlin",
+            "Android Studio",
+            "Firebase"
+                    ],
+        "link": "https://github.com/robinrj6/connect"
+    },  
+    {
+        "project": "Email organizer: n8n Workflow",
+        "description": "A smart job application tracking system built on n8n that automatically monitors your Gmail inbox for job-related emails. Each incoming email is classified by a locally-hosted Mistral model (via Ollama) into categories — rejection, interview invite, follow-up, or other, extracting the company name, role, urgency, and suggested next action. Results are logged automatically to a Google Sheet, building a live dashboard of your entire job search with zero manual entry. A Telegram notification is sent instantly for every update, keeping you informed on the go. Built with n8n, Gmail, Ollama, Google Sheets, and Telegram, entirely self-hosted and privacy-preserving. This workflow eliminates the chaos of job hunting, giving you a clear, organized view of your applications and next steps, all without lifting a finger.",
+        "tools": [
+            "n8n",
+            "Ollama - Mistral (local)",
+            "JavaScript",
+            "Google API",
+            "Telegram Bot API"
+        ],
+        "link": ""
+    },
+    {
         "project": "Adaptive ControlNet",
         "description": "The Adaptive ControlNet project presents an efficient reproduction and enhancement of the ControlNet framework, aimed at democratizing controllable synthesis. Built on Stable Diffusion v1.5, the model uses Canny edge detection for fine-grained spatial control. This work introduces adaptive gating—an MLP mechanism learning layer-specific weighting via diffusion timestamps—and a CNN-based confidence estimator for signal modulation. Trained on an RTX 3080 with 118K COCO images, the model achieved sudden convergence at approximately 21,000 steps. Results show a Fréchet Inception Distance (FID) of 28.34, outperforming the 37.83 baseline. Crucially, the architectural enhancements improved conditioning fidelity by 15.6% (0.3713 to 0.4294), validating that learned per-layer importance significantly improves structural preservation. This confirms that advanced spatial conditioning can be iteratively improved and trained effectively on consumer hardware using limited resources.",
         "tools": [
@@ -61,17 +83,6 @@
             "Dockerfile"
         ],
         "link": "https://github.com/robinrj6/FFmpeg-batch"
-    },
-    {
-        "project": "Youtube Videos Suggestor",
-        "description": "n8n workflow to suggest youtube videos after assessing the transcript of videos. This workflow uses n8n to automate the process of analyzing YouTube video transcripts and generating relevant video suggestions based on the content. By leveraging natural language processing techniques, the workflow can identify key topics and themes within the transcripts, allowing it to recommend videos that align with the viewer's interests. This tool is particularly useful for content creators and marketers looking to enhance viewer engagement by providing personalized video recommendations. I have personalised to recommened videoes from my favaorite channels using Google Gemini API for better results and send me notifications in Discord. n8n is locally hosted via Docker for free and better control.",
-        "tools": [
-            "n8n",
-            "Google Gemini",
-            "JavaScript",
-            "Docker"
-        ],
-        "link": ""
     },
     {
         "project": "PneumoGAN",

@@ -2,7 +2,8 @@
   {
     "name": "Java",
     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg"
-  },{
+  },
+  {
     "name": "Python",
     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
   },
@@ -25,6 +26,10 @@
   {
     "name": "Go",
     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg"
+  },
+    {
+    "name": "Kotlin",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg"
   },
   {
     "name": "Android Studio",
@@ -84,7 +89,11 @@
   {    "name": "Mapbox",
     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mapbox/mapbox-original.svg"
   },
-   {
+    {
+      "name": "Ollama",
+      "icon": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/ollama-dark.svg"
+  },
+  {
     "name": "Ghost",
     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ghost/ghost-original.svg"
   },
@@ -127,6 +136,10 @@
   {
     "name": "Figma",
     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg"
+  },
+    {
+    "name": "Firebase",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg"
   },
   {
     "name": "Webflow",
