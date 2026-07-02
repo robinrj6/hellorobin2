@@ -20,8 +20,14 @@ interface ComparisonSide {
 }
 
 interface Comparison {
-  baseline: ComparisonSide;
-  ours: ComparisonSide;
+  baseline?: ComparisonSide;
+  ours?: ComparisonSide;
+}
+
+interface ResultCard {
+  label: string;
+  value: string;
+  detail?: string;
 }
 
 interface ProjectDetailProps {
@@ -36,18 +42,20 @@ interface ProjectDetailProps {
   highlightsLabel?: string;
   comparison?: Comparison;
   comparisonLabel?: string;
+  results?: ResultCard[];
+  resultsLabel?: string;
 }
 
 const categoryRules = [
   {
     id: "ml",
-    label: "PyTorch / ML",
+    label: "AI / ML",
     color: "#7F77DD",
     match: (tools: string[]) => tools.some((tool) => getSkillGroup(tool) === "ml"),
   },
   {
     id: "frontend",
-    label: "React / Frontend",
+    label: "Frontend / React",
     color: "#5DCAA5",
     match: (tools: string[]) => tools.some((tool) => getSkillGroup(tool) === "frontend"),
   },
@@ -65,7 +73,7 @@ const categoryRules = [
   },
   {
     id: "automation",
-    label: "n8n / Automation",
+    label: "Automation / n8n",
     color: "#F09595",
     match: (tools: string[]) => tools.some((tool) => getSkillGroup(tool) === "automation"),
   },
@@ -77,13 +85,19 @@ const fallbackFeatured = featuredProjects.length ? featuredProjects : projData.s
 const featuredSet = new Set(fallbackFeatured.map((p) => p.project));
 const otherProjects = projData.filter((p) => !featuredSet.has(p.project));
 
-const getCategoryIds = (tools: string[]) => {
-  const ids = categoryRules.filter((rule) => rule.match(tools)).map((rule) => rule.id);
+const getCategoryIds = (project: ProjectRecord) => {
+  const manualCategories = Array.isArray(project.categories)
+    ? project.categories.filter((id: string) => categoryRules.some((rule) => rule.id === id))
+    : [];
+
+  if (manualCategories.length) return manualCategories;
+
+  const ids = categoryRules.filter((rule) => rule.match(project.tools)).map((rule) => rule.id);
   return ids.length ? ids : ["backend"];
 };
 
 const categoryCount = (id: string) =>
-  projData.filter((p) => getCategoryIds(p.tools).includes(id)).length;
+  projData.filter((p) => getCategoryIds(p).includes(id)).length;
 
 const shortDescription = (text: string, max = 180) =>
   text.length > max ? `${text.slice(0, max).trim()}…` : text;
@@ -115,6 +129,8 @@ const createProjectDetail = (project: ProjectRecord): ProjectDetailProps => {
     highlightsLabel: project.highlightsLabel,
     comparison: project.comparison as Comparison | undefined,
     comparisonLabel: project.comparisonLabel,
+    results: project.results as ResultCard[] | undefined,
+    resultsLabel: project.resultsLabel,
   };
 };
 
@@ -158,7 +174,7 @@ const projectDetails = Object.fromEntries(
           fallbackFeatured.map((project) => (
             <article
               class="card featured-card project-entry is-featured project-card"
-              data-categories={getCategoryIds(project.tools).join(" ")}
+              data-categories={getCategoryIds(project).join(" ")}
               data-name={project.project}
               data-project-card
               tabindex="0"
@@ -203,7 +219,7 @@ const projectDetails = Object.fromEntries(
           otherProjects.map((project) => (
             <article
               class="small-card project-entry project-card"
-              data-categories={getCategoryIds(project.tools).join(" ")}
+              data-categories={getCategoryIds(project).join(" ")}
               data-name={project.project}
               data-project-card
               tabindex="0"
@@ -375,7 +391,6 @@ const projectDetails = Object.fromEntries(
     --font-sans: "Wark", sans-serif;
     margin-top: 8rem;
     width: min(1180px, 92vw);
-    margin-inline: auto;
     margin-bottom: 3rem;
     background: #1a0a0f9a;
     border: 0.5px solid rgba(255, 255, 255, 0.08);

@@ -1,6 +1,7 @@
 [
     {
         "project": "Connect: Android App",
+        "categories":["mobile"],
         "description": "A minimalist Android app that lets you send pre-defined mood emojis to close friends and family in real time. Built in 7 days as a personal challenge to ship a finished product from scratch. Features Google authentication, friend requests, and live emoji updates via Firebase.",
         "tools": [
             "Kotlin",
@@ -17,6 +18,7 @@
     },  
     {
         "project": "Email organizer: n8n Workflow",
+        "categories":["automation"],
         "description": "A smart job application tracking system built on n8n that automatically monitors your Gmail inbox for job-related emails. Each incoming email is classified by a locally-hosted Mistral model (via Ollama) into categories — rejection, interview invite, follow-up, or other, extracting the company name, role, urgency, and suggested next action. Results are logged automatically to a Google Sheet, building a live dashboard of your entire job search with zero manual entry. A Telegram notification is sent instantly for every update, keeping you informed on the go. Built with n8n, Gmail, Ollama, Google Sheets, and Telegram, entirely self-hosted and privacy-preserving. This workflow eliminates the chaos of job hunting, giving you a clear, organized view of your applications and next steps, all without lifting a finger.",
         "tools": [
             "n8n",
@@ -26,15 +28,16 @@
             "Telegram Bot API"
         ],
         "link": "",
-        "subtitle": "Self-hosted job application tracker that classifies emails and updates a live dashboard",
+        "subtitle": "Self-hosted job application tracker that classifies emails and updates a live Google Sheets",
         "highlights": [
-            "Classifies incoming Gmail messages with a local **Mistral** model via Ollama",
+            "Classifies incoming Gmail emails with a local **Mistral** model via Ollama",
             "Automatically logs status updates to **Google Sheets** and notifies via Telegram",
             "Built to keep the job search organized with **zero manual entry**"
         ]
     },
     {
         "project": "Adaptive ControlNet",
+        "categories":["ml"],
         "description": "The Adaptive ControlNet project presents an efficient reproduction and enhancement of the ControlNet framework, aimed at democratizing controllable synthesis. Built on Stable Diffusion v1.5, the model uses Canny edge detection for fine-grained spatial control. This work introduces adaptive gating—an MLP mechanism learning layer-specific weighting via diffusion timestamps—and a CNN-based confidence estimator for signal modulation. Trained on an RTX 3080 with 118K COCO images, the model achieved sudden convergence at approximately 21,000 steps. Results show a Fréchet Inception Distance (FID) of 28.34, outperforming the 37.83 baseline. Crucially, the architectural enhancements improved conditioning fidelity by 15.6% (0.3713 to 0.4294), validating that learned per-layer importance significantly improves structural preservation. This confirms that advanced spatial conditioning can be iteratively improved and trained effectively on consumer hardware using limited resources.",
         "tools": [
             "Python",
@@ -79,6 +82,7 @@
     },  
     {
         "project": "Backup Cluster Manager",
+        "categories":["frontend","backend"],
         "description": "Open Source alternative for managing distributed nodes in a backup cluster environment. Implement Cluster Manager, Backup Manager and nodes Users, nodes, backups to let users interact with the cluster manager interface. As part of my master's project, I worked in a team of eight, on developing a Backup Cluster Manager that facilitates efficient management of distributed nodes within a backup cluster environment. The system comprises three main components: Cluster Manager, Backup Manager, and Nodes. The Cluster Manager serves as the central interface for users to interact with the backup cluster, allowing them to monitor and manage the overall system. The Backup Manager is responsible for coordinating backup operations across the distributed nodes, ensuring data integrity and reliability. The Nodes are individual units within the cluster that handle data storage and retrieval tasks. Users can create and manage nodes, initiate backup processes, and monitor the status of backups through the Cluster Manager interface. This project aims to provide a robust and user-friendly solution for managing backup clusters, enhancing data protection and recovery capabilities.",
         "tools": [
             "TypeScript",
@@ -106,10 +110,16 @@
             "Stable Diffusion",
             "ControlNet"
         ],
+        "categories": [
+            "frontend",
+            "ml",
+            "backend"
+        ],
         "link": "https://github.com/robinrj6/Assistant"
     },
     {
         "project": "FFMPEG Batch Video Processor",
+        "categories":["backend"],
         "description": "Docker based tool to process multiple videos concurrently with predefined profiles, custom operations, and workflow automation. This tool leverages FFMPEG to perform various video processing tasks such as format conversion, resolution adjustment, and bitrate modification. Users can define profiles for different processing needs and apply them to batches of videos, streamlining the workflow and saving time on repetitive tasks. CLI and web interface options are available for user convenience. Batch processing capabilities allow users to handle large volumes of videos efficiently, making it ideal for content creators, video editors, and media professionals.",
         "tools": [
             "FFMPEG",
@@ -122,6 +132,7 @@
     },
     {
         "project": "PneumoGAN",
+        "categories":["ml"],
         "description": "A python based project that utilizes Generative Adversarial Networks (GANs) to generate synthetic chest X-ray images for pneumonia detection. The project aims to augment existing medical image datasets by creating realistic synthetic images that can be used to train and improve machine learning models for pneumonia diagnosis. By leveraging GANs, the project seeks to address the challenges of limited data availability in the medical field, ultimately enhancing the accuracy and reliability of pneumonia detection systems. The generated images can help in training deep learning models, leading to better diagnostic tools for healthcare professionals. This was part of my Bacherlor's project, where I worked with 4 team members to develop this solution. Later, a research paper was published based on this project.",
         "tools": [
             "Python",
@@ -130,6 +141,13 @@
             "Matplotlib",
             "PyQt5"
         ],
-        "link": "https://ieeexplore.ieee.org/document/9563341"
+        "link": "https://ieeexplore.ieee.org/document/9563341",
+        "resultsLabel": "Experimental results",
+        "results": [
+            { "label": "Precision", "value": "87.71%", "detail": "On benchmark datasets" },
+            { "label": "Recall", "value": "91.4%", "detail": "On benchmark datasets" },
+            { "label": "F1 score", "value": "89.52%", "detail": "On benchmark datasets" },
+            { "label": "AUC", "value": "85%", "detail": "Yielded by the proposed approach" }
+        ]
     }
 ]

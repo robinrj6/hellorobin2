@@ -14,9 +14,15 @@ interface ComparisonSide {
   detail?: string;
 }
 
+interface ResultCard {
+  label: string;
+  value: string;
+  detail?: string;
+}
+
 interface Comparison {
-  baseline: ComparisonSide;
-  ours: ComparisonSide;
+  baseline?: ComparisonSide;
+  ours?: ComparisonSide;
 }
 
 interface Props {
@@ -31,6 +37,8 @@ interface Props {
   highlightsLabel?: string;
   comparison?: Comparison;
   comparisonLabel?: string;
+  results?: ResultCard[];
+  resultsLabel?: string;
 }
 
 const {
@@ -45,6 +53,8 @@ const {
   highlightsLabel = "What I built",
   comparison,
   comparisonLabel = "Comparison",
+  results = [],
+  resultsLabel = "Results",
 }: Props = Astro.props;
 
 const slug =
@@ -150,20 +160,45 @@ const tagVariant = (tool: string) => getSkillGroup(tool);
   }
 
   {
-    comparison && (
+    comparison && (comparison.baseline || comparison.ours) && (
       <>
         <div class="section-label">{comparisonLabel}</div>
         <div class="comparison">
-          <div class="comp-card baseline">
-            <div class="comp-label">{comparison.baseline.label}</div>
-            <div class="comp-val">{comparison.baseline.value}</div>
-            {comparison.baseline.detail && <div class="comp-detail">{comparison.baseline.detail}</div>}
-          </div>
-          <div class="comp-card ours">
-            <div class="comp-label">{comparison.ours.label}</div>
-            <div class="comp-val">{comparison.ours.value}</div>
-            {comparison.ours.detail && <div class="comp-detail">{comparison.ours.detail}</div>}
-          </div>
+          {
+            comparison.baseline && (
+              <div class="comp-card baseline">
+                <div class="comp-label">{comparison.baseline.label}</div>
+                <div class="comp-val">{comparison.baseline.value}</div>
+                {comparison.baseline.detail && <div class="comp-detail">{comparison.baseline.detail}</div>}
+              </div>
+            )
+          }
+          {
+            comparison.ours && (
+              <div class="comp-card ours">
+                <div class="comp-label">{comparison.ours.label}</div>
+                <div class="comp-val">{comparison.ours.value}</div>
+                {comparison.ours.detail && <div class="comp-detail">{comparison.ours.detail}</div>}
+              </div>
+            )
+          }
+        </div>
+      </>
+    )
+  }
+
+  {
+    results.length > 0 && (
+      <>
+        <div class="section-label">{resultsLabel}</div>
+        <div class="comparison">
+          {results.map((item) => (
+            <div class="comp-card result">
+              <div class="comp-label">{item.label}</div>
+              <div class="comp-val">{item.value}</div>
+              {item.detail && <div class="comp-detail">{item.detail}</div>}
+            </div>
+          ))}
         </div>
       </>
     )
@@ -449,6 +484,11 @@ const tagVariant = (tool: string) => getSkillGroup(tool);
     border: 0.5px solid rgba(29, 158, 117, 0.2);
   }
 
+  .comp-card.result {
+    background: rgba(29, 158, 117, 0.1);
+    border: 0.5px solid rgba(29, 158, 117, 0.2);
+  }
+
   .comp-label {
     font-size: 10px;
     color: rgba(255, 255, 255, 0.3);
@@ -462,6 +502,10 @@ const tagVariant = (tool: string) => getSkillGroup(tool);
     color: rgba(93, 202, 165, 0.6);
   }
 
+  .comp-card.result .comp-label {
+    color: rgba(93, 202, 165, 0.6);
+  }
+
   .comp-val {
     font-size: 18px;
     font-weight: 500;
@@ -470,6 +514,10 @@ const tagVariant = (tool: string) => getSkillGroup(tool);
   }
 
   .comp-card.ours .comp-val {
+    color: #5dcaa5;
+  }
+
+  .comp-card.result .comp-val {
     color: #5dcaa5;
   }
 
