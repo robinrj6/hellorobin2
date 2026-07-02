@@ -79,7 +79,7 @@ const categoryRules = [
   },
 ];
 
-const featuredTitles = ["Adaptive ControlNet", "Connect: Android App"];
+const featuredTitles = ["Adaptive ControlNet", "Backup Cluster Manager"];
 const featuredProjects = projData.filter((p) => featuredTitles.includes(p.project));
 const fallbackFeatured = featuredProjects.length ? featuredProjects : projData.slice(0, 2);
 const featuredSet = new Set(fallbackFeatured.map((p) => p.project));

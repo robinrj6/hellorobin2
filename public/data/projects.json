@@ -1,7 +1,9 @@
 [
     {
         "project": "Connect: Android App",
-        "categories":["mobile"],
+        "categories": [
+            "mobile"
+        ],
         "description": "A minimalist Android app that lets you send pre-defined mood emojis to close friends and family in real time. Built in 7 days as a personal challenge to ship a finished product from scratch. Features Google authentication, friend requests, and live emoji updates via Firebase.",
         "tools": [
             "Kotlin",
@@ -15,10 +17,12 @@
             "Implemented live emoji updates with **Firebase** for instant real-time syncing",
             "Shipped the app in **7 days** as a focused solo challenge"
         ]
-    },  
+    },
     {
         "project": "Email organizer: n8n Workflow",
-        "categories":["automation"],
+        "categories": [
+            "automation"
+        ],
         "description": "A smart job application tracking system built on n8n that automatically monitors your Gmail inbox for job-related emails. Each incoming email is classified by a locally-hosted Mistral model (via Ollama) into categories — rejection, interview invite, follow-up, or other, extracting the company name, role, urgency, and suggested next action. Results are logged automatically to a Google Sheet, building a live dashboard of your entire job search with zero manual entry. A Telegram notification is sent instantly for every update, keeping you informed on the go. Built with n8n, Gmail, Ollama, Google Sheets, and Telegram, entirely self-hosted and privacy-preserving. This workflow eliminates the chaos of job hunting, giving you a clear, organized view of your applications and next steps, all without lifting a finger.",
         "tools": [
             "n8n",
@@ -37,7 +41,9 @@
     },
     {
         "project": "Adaptive ControlNet",
-        "categories":["ml"],
+        "categories": [
+            "ml"
+        ],
         "description": "The Adaptive ControlNet project presents an efficient reproduction and enhancement of the ControlNet framework, aimed at democratizing controllable synthesis. Built on Stable Diffusion v1.5, the model uses Canny edge detection for fine-grained spatial control. This work introduces adaptive gating—an MLP mechanism learning layer-specific weighting via diffusion timestamps—and a CNN-based confidence estimator for signal modulation. Trained on an RTX 3080 with 118K COCO images, the model achieved sudden convergence at approximately 21,000 steps. Results show a Fréchet Inception Distance (FID) of 28.34, outperforming the 37.83 baseline. Crucially, the architectural enhancements improved conditioning fidelity by 15.6% (0.3713 to 0.4294), validating that learned per-layer importance significantly improves structural preservation. This confirms that advanced spatial conditioning can be iteratively improved and trained effectively on consumer hardware using limited resources.",
         "tools": [
             "Python",
@@ -57,9 +63,24 @@
         "link": "https://github.com/robinrj6/Adaptive-ControlNet",
         "subtitle": "Reproduced and extended Stable Diffusion 1.5 with per-layer adaptive gating — trained on FAU HPC",
         "metrics": [
-            { "label": "FID score", "value": "28.34", "sub": "vs 37.83 baseline", "variant": "good" },
-            { "label": "Fidelity gain", "value": "+15.6%", "sub": "conditioning improvement", "variant": "good" },
-            { "label": "Convergence", "value": "~21k", "sub": "steps, RTX 3080", "variant": "neutral" }
+            {
+                "label": "FID score",
+                "value": "28.34",
+                "sub": "vs 37.83 baseline",
+                "variant": "good"
+            },
+            {
+                "label": "Fidelity gain",
+                "value": "+15.6%",
+                "sub": "conditioning improvement",
+                "variant": "good"
+            },
+            {
+                "label": "Convergence",
+                "value": "~21k",
+                "sub": "steps, RTX 3080",
+                "variant": "neutral"
+            }
         ],
         "highlights": [
             "**Adaptive gate mechanism** — per-layer MLP conditioned on diffusion timestep and block depth, learning how much control signal to apply at each UNet layer",
@@ -79,25 +100,85 @@
                 "detail": "CLIP score 0.3088 · 15.6% better"
             }
         }
-    },  
+    },
     {
         "project": "Backup Cluster Manager",
-        "categories":["frontend","backend"],
-        "description": "Open Source alternative for managing distributed nodes in a backup cluster environment. Implement Cluster Manager, Backup Manager and nodes Users, nodes, backups to let users interact with the cluster manager interface. As part of my master's project, I worked in a team of eight, on developing a Backup Cluster Manager that facilitates efficient management of distributed nodes within a backup cluster environment. The system comprises three main components: Cluster Manager, Backup Manager, and Nodes. The Cluster Manager serves as the central interface for users to interact with the backup cluster, allowing them to monitor and manage the overall system. The Backup Manager is responsible for coordinating backup operations across the distributed nodes, ensuring data integrity and reliability. The Nodes are individual units within the cluster that handle data storage and retrieval tasks. Users can create and manage nodes, initiate backup processes, and monitor the status of backups through the Cluster Manager interface. This project aims to provide a robust and user-friendly solution for managing backup clusters, enhancing data protection and recovery capabilities.",
+        "categories": [
+            "backend",
+            "frontend"
+        ],
+        "description": "Backup Cluster Manager is an MVP for managing distributed backup nodes in a cluster environment. It combines an Angular frontend with a reactive Spring Boot backend, PostgreSQL persistence, and Docker-based multi-node orchestration. The project also includes Prometheus/Grafana monitoring and k6-based stress testing for backup create, read, and delete workflows.",
         "tools": [
-            "TypeScript",
             "Java",
+            "Spring Boot",
+            "Spring WebFlux",
             "Angular",
-            "Springboot",
-            "Docker",
-            "PostgreSQL",
-            "Github",
             "MyBatis",
-            "Webflux",
+            "Github",
+            "TypeScript",
+            "PostgreSQL",
+            "Docker Compose",
             "Prometheus",
             "Grafana"
         ],
-        "link": "https://github.com/amosproj/amos2025ws02-backup-cluster-manager"
+        "link": "https://github.com/amosproj/amos2025ws02-backup-cluster-manager",
+        "subtitle": "Distributed backup cluster management with monitoring and stress testing",
+        "highlights": [
+            "Reactive Spring Boot backend for cluster-manager and node interactions",
+            "Angular frontend for backups, users, permissions, clusters, and tasks",
+            "Built-in observability and stress-testing with Prometheus, Grafana, and k6"
+        ],
+        "metrics": [
+            {
+                "label": "p95 Create Latency",
+                "value": "2168.67ms",
+                "sub": "sample stress test",
+                "variant": "good"
+            },
+            {
+                "label": "Avg Create Latency",
+                "value": "801.97ms",
+                "sub": "sample stress test",
+                "variant": "good"
+            },
+            {
+                "label": "Max Concurrent VUs",
+                "value": "333",
+                "sub": "create workload",
+                "variant": "good"
+            }
+        ],
+        "comparisonLabel": "Deployment comparison",
+        "comparison": {
+            "baseline": {
+                "label": "Default stack",
+                "value": "Frontend + Backend + PostgreSQL",
+                "detail": "standard docker compose setup"
+            },
+            "ours": {
+                "label": "Cluster test mode",
+                "value": "CM + multiple nodes + monitoring + stress tests",
+                "detail": "profile-based distributed simulation"
+            }
+        },
+        "resultsLabel": "Experimental results",
+        "results": [
+            {
+                "label": "HTTP Requests",
+                "value": "12098",
+                "detail": "sample create test run"
+            },
+            {
+                "label": "Check Pass Rate",
+                "value": "99.95%",
+                "detail": "24184 passes, 12 fails"
+            },
+            {
+                "label": "Response Time Threshold",
+                "value": "5000ms",
+                "detail": "p95 threshold evaluated in k6"
+            }
+        ]
     },
     {
         "project": "Assistant",
@@ -119,7 +200,9 @@
     },
     {
         "project": "FFMPEG Batch Video Processor",
-        "categories":["backend"],
+        "categories": [
+            "backend"
+        ],
         "description": "Docker based tool to process multiple videos concurrently with predefined profiles, custom operations, and workflow automation. This tool leverages FFMPEG to perform various video processing tasks such as format conversion, resolution adjustment, and bitrate modification. Users can define profiles for different processing needs and apply them to batches of videos, streamlining the workflow and saving time on repetitive tasks. CLI and web interface options are available for user convenience. Batch processing capabilities allow users to handle large volumes of videos efficiently, making it ideal for content creators, video editors, and media professionals.",
         "tools": [
             "FFMPEG",
@@ -132,7 +215,9 @@
     },
     {
         "project": "PneumoGAN",
-        "categories":["ml"],
+        "categories": [
+            "ml"
+        ],
         "description": "A python based project that utilizes Generative Adversarial Networks (GANs) to generate synthetic chest X-ray images for pneumonia detection. The project aims to augment existing medical image datasets by creating realistic synthetic images that can be used to train and improve machine learning models for pneumonia diagnosis. By leveraging GANs, the project seeks to address the challenges of limited data availability in the medical field, ultimately enhancing the accuracy and reliability of pneumonia detection systems. The generated images can help in training deep learning models, leading to better diagnostic tools for healthcare professionals. This was part of my Bacherlor's project, where I worked with 4 team members to develop this solution. Later, a research paper was published based on this project.",
         "tools": [
             "Python",
@@ -144,10 +229,245 @@
         "link": "https://ieeexplore.ieee.org/document/9563341",
         "resultsLabel": "Experimental results",
         "results": [
-            { "label": "Precision", "value": "87.71%", "detail": "On benchmark datasets" },
-            { "label": "Recall", "value": "91.4%", "detail": "On benchmark datasets" },
-            { "label": "F1 score", "value": "89.52%", "detail": "On benchmark datasets" },
-            { "label": "AUC", "value": "85%", "detail": "Yielded by the proposed approach" }
+            {
+                "label": "Precision",
+                "value": "87.71%",
+                "detail": "On benchmark datasets"
+            },
+            {
+                "label": "Recall",
+                "value": "91.4%",
+                "detail": "On benchmark datasets"
+            },
+            {
+                "label": "F1 score",
+                "value": "89.52%",
+                "detail": "On benchmark datasets"
+            },
+            {
+                "label": "AUC",
+                "value": "85%",
+                "detail": "Yielded by the proposed approach"
+            }
+        ]
+    },
+    {
+        "project": "ControlNet Revamp",
+        "categories": [
+            "ml",
+            "computer-vision"
+        ],
+        "description": "ControlNet Revamp is an in-development diffusion-model project focused on training an attention-augmented UNet for image generation experiments. The current version works with a 25k subset of the Fill50k dataset and implements timestep noise scheduling, training, validation, checkpointing, and sample generation. This project is an active foundation toward a broader goal: recreating the full ControlNet architecture in future iterations.",
+        "tools": [
+            "Python",
+            "PyTorch",
+            "OpenCV"
+        ],
+        "link": "https://github.com/robinrj6/ControlNet_revamp",
+        "subtitle": "An in-progress attention UNet diffusion project evolving toward full ControlNet recreation",
+        "highlights": [
+            "Current implementation trains an attention-based UNet on a 25k image subset",
+            "Includes validation, checkpoint saving, generated sample exports, and metric tracking",
+            "Planned future work is to expand this into a full ControlNet architecture recreation"
+        ],
+        "metrics": [
+            {
+                "label": "Dataset",
+                "value": "25k",
+                "sub": "training images",
+                "variant": "good"
+            },
+            {
+                "label": "Resolution",
+                "value": "64x64",
+                "sub": "resized inputs",
+                "variant": "good"
+            },
+            {
+                "label": "Timesteps",
+                "value": "300",
+                "sub": "diffusion steps",
+                "variant": "good"
+            }
+        ],
+        "comparisonLabel": "Current architecture status",
+        "comparison": {
+            "baseline": {
+                "label": "Current scope",
+                "value": "Attention UNet",
+                "detail": "diffusion training prototype"
+            },
+            "ours": {
+                "label": "Future scope",
+                "value": "Full ControlNet",
+                "detail": "planned architecture recreation"
+            }
+        },
+        "resultsLabel": "Current project outputs",
+        "results": [
+            {
+                "label": "Checkpoints",
+                "value": "Saved",
+                "detail": "per validation interval"
+            },
+            {
+                "label": "Sample grids",
+                "value": "Saved",
+                "detail": "generated images during training"
+            },
+            {
+                "label": "Loss history",
+                "value": "Tracked",
+                "detail": "train and validation metrics"
+            }
+        ]
+    },
+    {
+        "project": "MNIST Manual and PyTorch Implementation",
+        "categories": [
+            "ml",
+            "deep-learning"
+        ],
+        "description": "This project builds and evaluates a handwritten digit classifier on the MNIST dataset using two approaches: a manual neural network implementation and a PyTorch-based MLP. It covers the full pipeline from loading raw IDX binary files and preprocessing images to training, validation, testing, and error analysis. The notebook is designed as a learning project to understand forward pass, loss computation, backpropagation, and SGD optimization.",
+        "tools": [
+            "Python",
+            "PyTorch",
+            "NumPy",
+            "Matplotlib"
+        ],
+        "link": "https://github.com/robinrj6/MNIST_Pytorch",
+        "subtitle": "MNIST digit classification with manual NN and PyTorch MLP",
+        "highlights": [
+            "Loads raw MNIST IDX binary files without external dataset loaders",
+            "Implements a neural network manually to show forward and backward pass mechanics",
+            "Compares manual training with a cleaner PyTorch MLP implementation"
+        ],
+        "metrics": [
+            {
+                "label": "Manual model test accuracy",
+                "value": "97.8%",
+                "sub": "test set",
+                "variant": "good"
+            },
+            {
+                "label": "PyTorch model validation accuracy",
+                "value": "98.0%",
+                "sub": "dev set",
+                "variant": "good"
+            }
+        ],
+        "comparisonLabel": "Implementation comparison",
+        "comparison": {
+            "baseline": {
+                "label": "Manual NN",
+                "value": "97.8%",
+                "detail": "test accuracy"
+            },
+            "ours": {
+                "label": "PyTorch MLP",
+                "value": "98.0%",
+                "detail": "validation accuracy"
+            }
+        },
+        "resultsLabel": "Experimental results",
+        "results": [
+            {
+                "label": "Training setup",
+                "value": "2 layers",
+                "detail": "784 → 128 → 10 with ReLU"
+            },
+            {
+                "label": "Data split",
+                "value": "90/10",
+                "detail": "train/dev split from training set"
+            },
+            {
+                "label": "Optimization",
+                "value": "SGD",
+                "detail": "manual and optimizer-based training"
+            }
+        ]
+    },
+    {
+        "project": "Map App",
+        "categories": [
+            "frontend",
+            "backend",
+            "ai",
+            "maps",
+            "database"
+        ],
+        "description": "Map App is a full-stack location platform that lets authenticated users create, browse, and manage markers on an interactive Mapbox map. The backend is built in Go with Gin and PostgreSQL, while the frontend is built in Next.js with React and Tailwind. It includes role-based access control, marker approval workflows, business menu items, discounts, tile views, and an Ollama-powered chat assistant that can operate globally or as a marker-specific customer-service persona.",
+        "tools": [
+            "Go",
+            "Gin",
+            "PostgreSQL",
+            "JWT",
+            "Next.js",
+            "React",
+            "TypeScript",
+            "Tailwind CSS",
+            "Mapbox GL",
+            "Ollama",
+            "MCP"
+        ],
+        "link": "https://github.com/robinrj6/map-app",
+        "subtitle": "Interactive map with marker workflows, business menus, approvals, and AI chat",
+        "highlights": [
+            "Role-aware marker management with USER, BUSINESS, and SUPERUSER permissions",
+            "Marker-specific AI assistant for shops, services, and events using Ollama",
+            "3D Mapbox visualization with building-aware marker placement and focus flows"
+        ],
+        "metrics": [
+            {
+                "label": "Chat Modal",
+                "value": "Local",
+                "sub": "Ollama - Mistral-nemo:12b",
+                "variant": "good"
+            },
+            {
+                "label": "Marker coverage",
+                "value": "100%",
+                "sub": "visible items in scope",
+                "variant": "good"
+            },
+            {
+                "label": "Build status",
+                "value": "Passing",
+                "sub": "frontend + backend",
+                "variant": "good"
+            }
+        ],
+        "comparisonLabel": "Mode comparison",
+        "comparison": {
+            "baseline": {
+                "label": "Global assistant",
+                "value": "All markers",
+                "detail": "answers across the visible map scope"
+            },
+            "ours": {
+                "label": "Marker persona",
+                "value": "Single marker",
+                "detail": "menu, reservations, discounts, and local service context"
+            }
+        },
+        "resultsLabel": "Product capabilities",
+        "results": [
+            {
+                "label": "Map interaction",
+                "value": "3D",
+                "detail": "pitch, buildings, focus cards, and tile navigation"
+            },
+            {
+                "label": "Access control",
+                "value": "RBAC",
+                "detail": "ownership checks and approval workflows"
+            },
+            {
+                "label": "AI chat modes",
+                "value": "2",
+                "detail": "global map assistant + marker-specific assistant"
+            }
         ]
     }
 ]
