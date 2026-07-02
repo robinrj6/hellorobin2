@@ -6,8 +6,14 @@
             "Kotlin",
             "Android Studio",
             "Firebase"
-                    ],
-        "link": "https://github.com/robinrj6/connect"
+        ],
+        "link": "https://github.com/robinrj6/connect",
+        "subtitle": "A minimalist Android app for sharing mood emojis with close friends in real time",
+        "highlights": [
+            "Built **Google authentication** and friend request flows for private social connections",
+            "Implemented live emoji updates with **Firebase** for instant real-time syncing",
+            "Shipped the app in **7 days** as a focused solo challenge"
+        ]
     },  
     {
         "project": "Email organizer: n8n Workflow",
@@ -19,7 +25,13 @@
             "Google API",
             "Telegram Bot API"
         ],
-        "link": ""
+        "link": "",
+        "subtitle": "Self-hosted job application tracker that classifies emails and updates a live dashboard",
+        "highlights": [
+            "Classifies incoming Gmail messages with a local **Mistral** model via Ollama",
+            "Automatically logs status updates to **Google Sheets** and notifies via Telegram",
+            "Built to keep the job search organized with **zero manual entry**"
+        ]
     },
     {
         "project": "Adaptive ControlNet",
@@ -39,7 +51,31 @@
             "Bash",
             "Linux HPC"
         ],
-        "link": "https://github.com/robinrj6/Adaptive-ControlNet"
+        "link": "https://github.com/robinrj6/Adaptive-ControlNet",
+        "subtitle": "Reproduced and extended Stable Diffusion 1.5 with per-layer adaptive gating — trained on FAU HPC",
+        "metrics": [
+            { "label": "FID score", "value": "28.34", "sub": "vs 37.83 baseline", "variant": "good" },
+            { "label": "Fidelity gain", "value": "+15.6%", "sub": "conditioning improvement", "variant": "good" },
+            { "label": "Convergence", "value": "~21k", "sub": "steps, RTX 3080", "variant": "neutral" }
+        ],
+        "highlights": [
+            "**Adaptive gate mechanism** — per-layer MLP conditioned on diffusion timestep and block depth, learning how much control signal to apply at each UNet layer",
+            "**Conditioning confidence estimator** — lightweight CNN that modulates the gate signal based on estimated control map quality",
+            "Trained on **118K COCO images** using Canny edge maps as control signal on FAU's HPC cluster (SLURM)"
+        ],
+        "comparisonLabel": "FID comparison",
+        "comparison": {
+            "baseline": {
+                "label": "SD 1.5 baseline",
+                "value": "37.83",
+                "detail": "Standard ControlNet, no gating"
+            },
+            "ours": {
+                "label": "Adaptive ControlNet",
+                "value": "28.34",
+                "detail": "CLIP score 0.3088 · 15.6% better"
+            }
+        }
     },  
     {
         "project": "Backup Cluster Manager",

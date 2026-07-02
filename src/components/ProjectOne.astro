@@ -1,28 +1,185 @@
-<div>
-  <h1>{Astro.props.title}</h1>
-  <span
-    >{Astro.props.description}{
-      Astro.props.link && (
-        <a href={Astro.props.link}>
-          <img
-            class="icons"
-            style="width: 16px; background-color: #06ffd1d8; border-radius: 50%;padding: 2px; margin-bottom: -4px;"
-            src="/images/link.svg"
-          />
-        </a>
-      )
-    }
-    {
-      Astro.props.tools && (
-        <>
-          <br />
-          <br />
-          <strong>Tools:</strong> {Astro.props.tools.join(", ")}
-        </>
-      )
-    }
-    </span
-  >
+---
+import { getSkillGroup } from "../lib/skills";
+
+interface Metric {
+  label: string;
+  value: string;
+  sub?: string;
+  variant?: "good" | "neutral";
+}
+
+interface ComparisonSide {
+  label: string;
+  value: string;
+  detail?: string;
+}
+
+interface Comparison {
+  baseline: ComparisonSide;
+  ours: ComparisonSide;
+}
+
+interface Props {
+  title: string;
+  category?: string;
+  subtitle?: string;
+  description?: string;
+  link?: string;
+  tools?: string[];
+  metrics?: Metric[];
+  highlights?: string[];
+  highlightsLabel?: string;
+  comparison?: Comparison;
+  comparisonLabel?: string;
+}
+
+const {
+  title,
+  category,
+  subtitle,
+  description,
+  link,
+  tools = [],
+  metrics = [],
+  highlights = [],
+  highlightsLabel = "What I built",
+  comparison,
+  comparisonLabel = "Comparison",
+}: Props = Astro.props;
+
+const slug =
+  category ??
+  title
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+
+const parseBold = (text: string) =>
+  text
+    .split(/(\*\*[^*]+\*\*)/g)
+    .filter((part) => part.length > 0)
+    .map((part) =>
+      part.startsWith("**") && part.endsWith("**")
+        ? { bold: true, text: part.slice(2, -2) }
+        : { bold: false, text: part }
+    );
+
+const tagVariant = (tool: string) => getSkillGroup(tool);
+---
+
+<div class="panel">
+  <div class="panel-header">
+    <div class="breadcrumb">projects / <span>{slug}</span></div>
+    <div class="title-row">
+      <div>
+        <h2 class="title">{title}</h2>
+        {subtitle && <p class="subtitle">{subtitle}</p>}
+      </div>
+      {
+        link && (
+          <a class="ext-link" href={link} target="_blank" rel="noopener noreferrer">
+            <svg
+              class="gh-icon"
+              aria-hidden="true"
+              focusable="false"
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+            </svg>
+            repo
+          </a>
+        )
+      }
+    </div>
+  </div>
+
+  {
+    description && (
+      <p class="desc">
+        {parseBold(description).map((part) =>
+          part.bold ? <strong>{part.text}</strong> : part.text
+        )}
+      </p>
+    )
+  }
+
+  {
+    metrics.length > 0 && (
+      <>
+        <div class="metrics">
+          {metrics.map((metric) => (
+            <div class={`metric ${metric.variant ?? ""}`}>
+              <div class="metric-label">{metric.label}</div>
+              <div class="metric-value">{metric.value}</div>
+              {metric.sub && <div class="metric-sub">{metric.sub}</div>}
+            </div>
+          ))}
+        </div>
+        <hr class="divider" />
+      </>
+    )
+  }
+
+  {
+    highlights.length > 0 && (
+      <>
+        <div class="section-label">{highlightsLabel}</div>
+        <div class="highlights">
+          {highlights.map((item) => (
+            <div class="highlight">
+              <div class="highlight-dot" />
+              <div class="highlight-text">
+                {parseBold(item).map((part) =>
+                  part.bold ? <strong>{part.text}</strong> : part.text
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </>
+    )
+  }
+
+  {
+    comparison && (
+      <>
+        <div class="section-label">{comparisonLabel}</div>
+        <div class="comparison">
+          <div class="comp-card baseline">
+            <div class="comp-label">{comparison.baseline.label}</div>
+            <div class="comp-val">{comparison.baseline.value}</div>
+            {comparison.baseline.detail && <div class="comp-detail">{comparison.baseline.detail}</div>}
+          </div>
+          <div class="comp-card ours">
+            <div class="comp-label">{comparison.ours.label}</div>
+            <div class="comp-val">{comparison.ours.value}</div>
+            {comparison.ours.detail && <div class="comp-detail">{comparison.ours.detail}</div>}
+          </div>
+        </div>
+      </>
+    )
+  }
+
+  {
+    tools.length > 0 && (
+      <>
+        <hr class="divider" />
+        <div class="section-label" style="margin-bottom:0.6rem">Stack</div>
+        <div class="tags">
+          {tools.map((tool) => <span class={`tag ${tagVariant(tool)}`}>{tool}</span>)}
+        </div>
+      </>
+    )
+  }
 </div>
 
 <style>
@@ -30,44 +187,319 @@
     font-family: "Hurmit";
     src: url("/src/assets/fonts/HurmitNerdFont-Regular.otf") format("opentype");
   }
-  div {
-    text-align: left;
-    font-family: Hurmit, sans-serif;
+  @font-face {
+    font-family: "Neighbor";
+    src: url("/src/assets/fonts/Neighbor.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "Wark";
+    src: url("/src/assets/fonts/wark-Regular.ttf") format("truetype");
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  .panel {
+    --font-mono: "Hurmit", monospace;
+    --font-sans: "Wark", sans-serif;
+    background: #1a0a0f;
     border: 1px solid #b6b6b6;
-    border-radius: 8px;
-    padding: 2rem;
-    background-color: #4f00009e;
-    min-height: fit-content;
+    border-radius: 12px;
+    padding: 1.75rem;
+    font-family: var(--font-mono);
+    text-align: left;
   }
-  strong{
-    font-size: large;
-    }
-  h1 {
-    color: rgba(182, 182, 182, 0.718);
-    height: fit-content;
+
+  .panel-header {
+    margin-bottom: 1.25rem;
+  }
+
+  .breadcrumb {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.25);
+    font-family: var(--font-mono);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.6rem;
+  }
+
+  .breadcrumb span {
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  .title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .title {
     font-size: 1.5rem;
-  }
-  a {
-    text-decoration: none;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.92);
+    letter-spacing: 0.01em;
+    font-family: var(--font-sans);
     margin: 0;
-    margin-left: -0.5rem;
-    padding: 0;
   }
-  span {
-    color: #8c8c8ce5;
+
+  .ext-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.3);
+    text-decoration: none;
+    border: 0.5px solid rgba(255, 255, 255, 0.12);
+    border-radius: 6px;
+    padding: 4px 10px;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
   }
-  img.icons {
-    filter: invert(82%) sepia(8%) saturate(747%) hue-rotate(170deg)
-      brightness(60%) contrast(87%);
+
+  .ext-link:hover {
+    color: rgba(255, 255, 255, 0.6);
+    border-color: rgba(255, 255, 255, 0.25);
   }
+
+  .gh-icon {
+    display: block;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 0.4rem;
+    line-height: 1.5;
+  }
+
+  .divider {
+    border: none;
+    border-top: 0.5px solid rgba(255, 255, 255, 0.08);
+    margin: 1.25rem 0;
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 1.25rem;
+  }
+
+  .metric {
+    background: rgba(255, 255, 255, 0.03);
+    border: 0.5px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 0.75rem 0.9rem;
+  }
+
+  .metric-label {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.28);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+    margin-bottom: 0.35rem;
+  }
+
+  .metric-value {
+    font-size: 20px;
+    font-weight: 500;
+    color: rgba(220, 160, 180, 0.9);
+    font-family: var(--font-mono);
+  }
+
+  .metric-sub {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.25);
+    margin-top: 2px;
+  }
+
+  .metric.good .metric-value {
+    color: #5dcaa5;
+  }
+
+  .metric.neutral .metric-value {
+    color: rgba(175, 169, 236, 0.9);
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.25);
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+    margin-bottom: 0.6rem;
+  }
+
+  .desc {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.75;
+    margin-bottom: 1.25rem;
+  }
+
+  .desc strong {
+    color: rgba(255, 255, 255, 0.75);
+    font-weight: 500;
+  }
+
+  .highlights {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 1.25rem;
+  }
+
+  .highlight {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .highlight-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(175, 169, 236, 0.6);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  .highlight-text {
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.6;
+  }
+
+  .highlight-text strong {
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+  }
+
+  .tag.ml {
+    background: rgba(83, 74, 183, 0.2);
+    color: #afa9ec;
+    border: 0.5px solid rgba(83, 74, 183, 0.3);
+  }
+
+  .tag.frontend {
+    background: rgba(93, 202, 165, 0.16);
+    color: #8be3c4;
+    border: 0.5px solid rgba(93, 202, 165, 0.28);
+  }
+
+  .tag.backend {
+    background: rgba(186, 117, 23, 0.18);
+    color: #ef9f27;
+    border: 0.5px solid rgba(186, 117, 23, 0.28);
+  }
+
+  .tag.mobile {
+    background: rgba(151, 196, 89, 0.16);
+    color: #b9e07f;
+    border: 0.5px solid rgba(151, 196, 89, 0.28);
+  }
+
+  .tag.automation {
+    background: rgba(240, 149, 149, 0.16);
+    color: #ffb0b0;
+    border: 0.5px solid rgba(240, 149, 149, 0.28);
+  }
+
+  .tag.gray {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.35);
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 1.25rem;
+  }
+
+  .comp-card {
+    border-radius: 7px;
+    padding: 0.65rem 0.85rem;
+  }
+
+  .comp-card.baseline {
+    background: rgba(255, 255, 255, 0.03);
+    border: 0.5px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .comp-card.ours {
+    background: rgba(29, 158, 117, 0.1);
+    border: 0.5px solid rgba(29, 158, 117, 0.2);
+  }
+
+  .comp-label {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+    margin-bottom: 4px;
+  }
+
+  .comp-card.ours .comp-label {
+    color: rgba(93, 202, 165, 0.6);
+  }
+
+  .comp-val {
+    font-size: 18px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: var(--font-mono);
+  }
+
+  .comp-card.ours .comp-val {
+    color: #5dcaa5;
+  }
+
+  .comp-detail {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.2);
+    margin-top: 2px;
+  }
+
   @media screen and (max-width: 1052px) {
-    span {
-      padding: 1rem;
+    .panel {
+      padding: 1.25rem;
     }
-    h1 {
-      font-size: 1.5rem;
-      height: auto;
-      margin-top: 1rem;
+    .title {
+      font-size: 1.1rem;
+    }
+    .metrics {
+      grid-template-columns: 1fr 1fr;
+    }
+    .comparison {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .metrics {
+      grid-template-columns: 1fr;
+    }
+    .title-row {
+      flex-direction: column;
     }
   }
 </style>

@@ -1,0 +1,343 @@
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  .panel {
+    background: #1a0a0f;
+    border-radius: 12px;
+    padding: 1.75rem;
+    font-family: var(--font-sans, sans-serif);
+  }
+
+  .panel-header {
+    margin-bottom: 1.25rem;
+  }
+
+  .breadcrumb {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.25);
+    font-family: var(--font-mono, monospace);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.6rem;
+  }
+
+  .breadcrumb span {
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  .title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .title {
+    font-size: 20px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.92);
+    letter-spacing: 0.01em;
+    font-family: var(--font-mono, monospace);
+  }
+
+  .ext-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.3);
+    text-decoration: none;
+    border: 0.5px solid rgba(255, 255, 255, 0.12);
+    border-radius: 6px;
+    padding: 4px 10px;
+    white-space: nowrap;
+  }
+
+  .ext-link:hover {
+    color: rgba(255, 255, 255, 0.6);
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 0.4rem;
+    line-height: 1.5;
+  }
+
+  .divider {
+    border: none;
+    border-top: 0.5px solid rgba(255, 255, 255, 0.08);
+    margin: 1.25rem 0;
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 1.25rem;
+  }
+
+  .metric {
+    background: rgba(255, 255, 255, 0.03);
+    border: 0.5px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 0.75rem 0.9rem;
+  }
+
+  .metric-label {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.28);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: var(--font-mono, monospace);
+    margin-bottom: 0.35rem;
+  }
+
+  .metric-value {
+    font-size: 20px;
+    font-weight: 500;
+    color: rgba(220, 160, 180, 0.9);
+    font-family: var(--font-mono, monospace);
+  }
+
+  .metric-sub {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.25);
+    margin-top: 2px;
+  }
+
+  .metric.good .metric-value {
+    color: #5DCAA5;
+  }
+
+  .metric.neutral .metric-value {
+    color: rgba(175, 169, 236, 0.9);
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.25);
+    text-transform: uppercase;
+    font-family: var(--font-mono, monospace);
+    margin-bottom: 0.6rem;
+  }
+
+  .desc {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.75;
+    margin-bottom: 1.25rem;
+  }
+
+  .desc strong {
+    color: rgba(255, 255, 255, 0.75);
+    font-weight: 500;
+  }
+
+  .highlights {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 1.25rem;
+  }
+
+  .highlight {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .highlight-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(175, 169, 236, 0.6);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  .highlight-text {
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.6;
+  }
+
+  .highlight-text strong {
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-family: var(--font-mono, monospace);
+  }
+
+  .tag.ai {
+    background: rgba(83, 74, 183, 0.2);
+    color: #AFA9EC;
+    border: 0.5px solid rgba(83, 74, 183, 0.3);
+  }
+
+  .tag.be {
+    background: rgba(186, 117, 23, 0.18);
+    color: #EF9F27;
+    border: 0.5px solid rgba(186, 117, 23, 0.28);
+  }
+
+  .tag.gray {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.35);
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 1.25rem;
+  }
+
+  .comp-card {
+    border-radius: 7px;
+    padding: 0.65rem 0.85rem;
+  }
+
+  .comp-card.baseline {
+    background: rgba(255, 255, 255, 0.03);
+    border: 0.5px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .comp-card.ours {
+    background: rgba(29, 158, 117, 0.1);
+    border: 0.5px solid rgba(29, 158, 117, 0.2);
+  }
+
+  .comp-label {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: var(--font-mono, monospace);
+    margin-bottom: 4px;
+  }
+
+  .comp-card.ours .comp-label {
+    color: rgba(93, 202, 165, 0.6);
+  }
+
+  .comp-val {
+    font-size: 18px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: var(--font-mono, monospace);
+  }
+
+  .comp-card.ours .comp-val {
+    color: #5DCAA5;
+  }
+
+  .comp-detail {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.2);
+    margin-top: 2px;
+  }
+</style>
+
+<div class="panel">
+  <div class="panel-header">
+    <div class="breadcrumb">projects / <span>adaptive-controlnet</span></div>
+    <div class="title-row">
+      <div>
+        <div class="title">Adaptive ControlNet</div>
+        <div class="subtitle">Reproduced and extended SD 1.5 with per-layer adaptive gating — trained on FAU HPC</div>
+      </div>
+      <a href="#" class="ext-link">
+        <i class="ti ti-brand-github" aria-hidden="true"></i> repo
+      </a>
+    </div>
+  </div>
+
+  <div class="metrics">
+    <div class="metric good">
+      <div class="metric-label">FID score</div>
+      <div class="metric-value">28.34</div>
+      <div class="metric-sub">vs 37.83 baseline</div>
+    </div>
+    <div class="metric good">
+      <div class="metric-label">Fidelity gain</div>
+      <div class="metric-value">+15.6%</div>
+      <div class="metric-sub">conditioning improvement</div>
+    </div>
+    <div class="metric neutral">
+      <div class="metric-label">Convergence</div>
+      <div class="metric-value">~21k</div>
+      <div class="metric-sub">steps, RTX 3080</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section-label">What I built</div>
+  <div class="highlights">
+    <div class="highlight">
+      <div class="highlight-dot"></div>
+      <div class="highlight-text"><strong>Adaptive gate mechanism</strong> — per-layer MLP conditioned on diffusion
+        timestep and block depth, learning how much control signal to apply at each UNet layer</div>
+    </div>
+    <div class="highlight">
+      <div class="highlight-dot"></div>
+      <div class="highlight-text"><strong>Conditioning confidence estimator</strong> — lightweight CNN that modulates
+        the gate signal based on estimated control map quality</div>
+    </div>
+    <div class="highlight">
+      <div class="highlight-dot"></div>
+      <div class="highlight-text">Trained on <strong>118K COCO images</strong> using Canny edge maps as control signal,
+        on FAU's HPC cluster (SLURM)</div>
+    </div>
+  </div>
+
+  <div class="section-label">FID comparison</div>
+  <div class="comparison">
+    <div class="comp-card baseline">
+      <div class="comp-label">SD 1.5 baseline</div>
+      <div class="comp-val">37.83</div>
+      <div class="comp-detail">Standard ControlNet, no gating</div>
+    </div>
+    <div class="comp-card ours">
+      <div class="comp-label">Adaptive ControlNet</div>
+      <div class="comp-val">28.34</div>
+      <div class="comp-detail">CLIP score 0.3088 · 15.6% better</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section-label" style="margin-bottom:0.6rem">Stack</div>
+  <div class="tags">
+    <span class="tag ai">PyTorch</span>
+    <span class="tag ai">HuggingFace Diffusers</span>
+    <span class="tag ai">HuggingFace Accelerate</span>
+    <span class="tag ai">Stable Diffusion 1.5</span>
+    <span class="tag be">SLURM</span>
+    <span class="tag be">Linux HPC</span>
+    <span class="tag gray">OpenCV</span>
+    <span class="tag gray">Scikit-learn</span>
+    <span class="tag gray">MiDaS</span>
+    <span class="tag gray">COCO Dataset</span>
+    <span class="tag gray">Bash</span>
+  </div>
+</div>

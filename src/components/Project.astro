@@ -1,233 +1,746 @@
 ---
-import ProjectOne from "./ProjectOne.astro";
 import GitHubActivity from "./GitHubActivity.astro";
+import ProjectOne from "./ProjectOne.astro";
+import { getSkillGroup } from "../lib/skills";
 import projData from "../../public/data/projects.json";
+
+type ProjectRecord = any;
+
+interface Metric {
+  label: string;
+  value: string;
+  sub?: string;
+  variant?: "good" | "neutral";
+}
+
+interface ComparisonSide {
+  label: string;
+  value: string;
+  detail?: string;
+}
+
+interface Comparison {
+  baseline: ComparisonSide;
+  ours: ComparisonSide;
+}
+
+interface ProjectDetailProps {
+  title: string;
+  category?: string;
+  subtitle?: string;
+  description?: string;
+  link?: string;
+  tools?: string[];
+  metrics?: Metric[];
+  highlights?: string[];
+  highlightsLabel?: string;
+  comparison?: Comparison;
+  comparisonLabel?: string;
+}
+
+const categoryRules = [
+  {
+    id: "ml",
+    label: "PyTorch / ML",
+    color: "#7F77DD",
+    match: (tools: string[]) => tools.some((tool) => getSkillGroup(tool) === "ml"),
+  },
+  {
+    id: "frontend",
+    label: "React / Frontend",
+    color: "#5DCAA5",
+    match: (tools: string[]) => tools.some((tool) => getSkillGroup(tool) === "frontend"),
+  },
+  {
+    id: "backend",
+    label: "Backend / Infra",
+    color: "#EF9F27",
+    match: (tools: string[]) => tools.some((tool) => getSkillGroup(tool) === "backend"),
+  },
+  {
+    id: "mobile",
+    label: "Android / Kotlin",
+    color: "#97C459",
+    match: (tools: string[]) => tools.some((tool) => getSkillGroup(tool) === "mobile"),
+  },
+  {
+    id: "automation",
+    label: "n8n / Automation",
+    color: "#F09595",
+    match: (tools: string[]) => tools.some((tool) => getSkillGroup(tool) === "automation"),
+  },
+];
+
+const featuredTitles = ["Adaptive ControlNet", "Connect: Android App"];
+const featuredProjects = projData.filter((p) => featuredTitles.includes(p.project));
+const fallbackFeatured = featuredProjects.length ? featuredProjects : projData.slice(0, 2);
+const featuredSet = new Set(fallbackFeatured.map((p) => p.project));
+const otherProjects = projData.filter((p) => !featuredSet.has(p.project));
+
+const getCategoryIds = (tools: string[]) => {
+  const ids = categoryRules.filter((rule) => rule.match(tools)).map((rule) => rule.id);
+  return ids.length ? ids : ["backend"];
+};
+
+const categoryCount = (id: string) =>
+  projData.filter((p) => getCategoryIds(p.tools).includes(id)).length;
+
+const shortDescription = (text: string, max = 180) =>
+  text.length > max ? `${text.slice(0, max).trim()}…` : text;
+
+const tagVariant = (tool: string) => getSkillGroup(tool);
+
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+
+const firstSentence = (text: string) => {
+  const sentence = text.split(/(?<=[.!?])\s+/)[0]?.trim() ?? text.trim();
+  return sentence.endsWith(".") ? sentence : `${sentence}.`;
+};
+
+const createProjectDetail = (project: ProjectRecord): ProjectDetailProps => {
+  return {
+    title: project.project,
+    category: slugify(project.project),
+    subtitle: project.subtitle || firstSentence(project.description),
+    description: project.description,
+    link: project.link || undefined,
+    tools: project.tools,
+    metrics: project.metrics as Metric[] | undefined,
+    highlights: project.highlights,
+    highlightsLabel: project.highlightsLabel,
+    comparison: project.comparison as Comparison | undefined,
+    comparisonLabel: project.comparisonLabel,
+  };
+};
+
+const projectDetails = Object.fromEntries(
+  projData.map((project) => [project.project, createProjectDetail(project)])
+);
 ---
 
-<div style="margin-top: 10rem; height:100vh;">
-  <div class="HProject">
-    <div id="container">
-      <div class="left">
-        <div class="file-list">
-          {
-            projData.map((project) => (
-              <button
-                class="file"
-                type="button"
-                data-project={project.project}
-                data-open="false"
-                aria-pressed="false"
-              >
-                <img
-                  class="folder-icon"
-                  src="/images/folder.svg"
-                  alt={`${project.project} folder`}
-                  width="80"
-                  height="80"
-                />
-                <p class="pname">{project.project}</p>
-              </button>
-            ))
-          }
-        </div>
+<section class="projects-shell" aria-label="Projects">
+  <div class="content">
+    <aside class="sidebar" aria-label="Filter projects">
+      <hr class="divider" />
+
+      <button class="filter-btn active" data-filter="all" type="button" aria-pressed="true">
+        <span class="dot" style="background:rgba(255,255,255,0.3)"></span>
+        All projects
+        <span class="count">{projData.length}</span>
+      </button>
+
+      {
+        categoryRules.map((category) => (
+          <button class="filter-btn" data-filter={category.id} type="button" aria-pressed="false">
+            <span class="dot" style={`background:${category.color}`}></span>
+            {category.label}
+            <span class="count">{categoryCount(category.id)}</span>
+          </button>
+        ))
+      }
+
+      <hr class="divider" />
+    </aside>
+
+    <main class="main">
+      <div class="section-header" id="featured-header">
+        <span class="section-title">Featured</span>
+        <span class="section-count" id="featured-count">{fallbackFeatured.length} projects</span>
       </div>
-      <div class="right">
-        <div class="project-display" aria-live="polite">
-          <div class="project-card default-card" data-project="__default">
-            <ProjectOne
-              title="Select a project"
-              description="Click a folder to view its description here."
-            />
-          </div>
-          {
-            projData.map((project) => (
-              <div class="project-card hidden" data-project={project.project}>
-                <ProjectOne
-                  title={project.project}
-                  description={project.description}
-                  tools={project.tools}
-                  link={project.link}
-                />
+
+      <div class="featured" id="featured-grid">
+        {
+          fallbackFeatured.map((project) => (
+            <article
+              class="card featured-card project-entry is-featured project-card"
+              data-categories={getCategoryIds(project.tools).join(" ")}
+              data-name={project.project}
+              data-project-card
+              tabindex="0"
+              role="button"
+              aria-label={`Open ${project.project}`}
+            >
+              <div class="card-top">
+                <span class="card-icon" aria-hidden="true">✦</span>
+                {
+                  project.link ? (
+                    <a
+                      class="card-arrow"
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Open ${project.project}`}
+                    >
+                      ↗
+                    </a>
+                  ) : (
+                    <span class="card-arrow" aria-hidden="true">→</span>
+                  )
+                }
               </div>
-            ))
-          }
-        </div>
+              <div class="card-name">{project.project}</div>
+              <p class="card-desc">{shortDescription(project.description, 210)}</p>
+              <div class="tags">
+                {project.tools.slice(0, 4).map((tool) => <span class={`tag ${tagVariant(tool)}`}>{tool}</span>)}
+              </div>
+            </article>
+          ))
+        }
       </div>
-    </div>
+
+      <div class="section-header" id="all-header">
+        <span class="section-title">All projects</span>
+        <span class="section-count" id="all-count">{otherProjects.length} more</span>
+      </div>
+
+      <div class="grid" id="all-grid">
+        {
+          otherProjects.map((project) => (
+            <article
+              class="small-card project-entry project-card"
+              data-categories={getCategoryIds(project.tools).join(" ")}
+              data-name={project.project}
+              data-project-card
+              tabindex="0"
+              role="button"
+              aria-label={`Open ${project.project}`}
+            >
+              <div class="small-card-name-row">
+                <div class="small-card-name">{project.project}</div>
+                {
+                  project.link ? (
+                    <a
+                      class="small-arrow"
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Open ${project.project}`}
+                    >
+                      ↗
+                    </a>
+                  ) : null
+                }
+              </div>
+              <p class="small-card-desc">{shortDescription(project.description, 130)}</p>
+              <div class="tags">
+                {project.tools.slice(0, 3).map((tool) => <span class={`tag ${tagVariant(tool)}`}>{tool}</span>)}
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </main>
   </div>
-  <span style="display: flex; justify-content: center; margin-bottom: 2rem;">
+
+  <span class="github-wrap">
     <GitHubActivity />
   </span>
-</div>
+
+  <div class="project-modal" id="project-modal" hidden>
+    <button class="project-modal-backdrop" id="project-modal-backdrop" type="button" aria-label="Close project details"></button>
+    <div class="project-modal-dialog" role="dialog" aria-modal="true" aria-label="Project details">
+      <button class="project-modal-close" id="project-modal-close" type="button" aria-label="Close project details">✕</button>
+      {
+        projData.map((project) => {
+          const detail = projectDetails[project.project] ?? createProjectDetail(project);
+
+          return (
+            <section class="project-modal-panel" data-project-panel={project.project} hidden>
+              <ProjectOne {...detail} />
+            </section>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
 
 <script>
   if (typeof window !== "undefined") {
-    const resetButtons = (buttons: any[]) => {
-      buttons.forEach((button: { setAttribute: (arg0: string, arg1: string) => void; querySelector: (arg0: string) => any; }) => {
-        button.setAttribute("data-open", "false");
-        button.setAttribute("aria-pressed", "false");
-        const icon = button.querySelector(".folder-icon");
-        if (icon) icon.src = "/images/folder.svg";
+    const filterButtons = Array.from(document.querySelectorAll(".filter-btn[data-filter]"));
+    const projectCards = Array.from(document.querySelectorAll(".project-entry"));
+    const clickableCards = Array.from(document.querySelectorAll("[data-project-card]"));
+    const featuredHeader = document.getElementById("featured-header");
+    const allHeader = document.getElementById("all-header");
+    const featuredCount = document.getElementById("featured-count");
+    const allCount = document.getElementById("all-count");
+    const projectModal = document.getElementById("project-modal");
+    const projectModalBackdrop = document.getElementById("project-modal-backdrop");
+    const projectModalClose = document.getElementById("project-modal-close");
+    const projectPanels = Array.from(document.querySelectorAll("[data-project-panel]"));
+
+    const setModalOpen = (open: boolean) => {
+      if (!projectModal) return;
+      projectModal.hidden = !open;
+      document.body.style.overflow = open ? "hidden" : "";
+    };
+
+    const closeProjectModal = () => {
+      projectPanels.forEach((panel) => panel.setAttribute("hidden", ""));
+      setModalOpen(false);
+    };
+
+    const openProjectModal = (projectName: string) => {
+      const panel = projectPanels.find((item) => item.getAttribute("data-project-panel") === projectName);
+      if (!panel) return;
+
+      projectPanels.forEach((item) => item.setAttribute("hidden", ""));
+      panel.removeAttribute("hidden");
+      setModalOpen(true);
+    };
+
+    const updateSectionState = () => {
+      const visibleFeatured = projectCards.filter(
+        (card) =>
+          card.classList.contains("is-featured") &&
+          !card.classList.contains("hidden-by-filter")
+      ).length;
+      const visibleOther = projectCards.filter(
+        (card) =>
+          !card.classList.contains("is-featured") &&
+          !card.classList.contains("hidden-by-filter")
+      ).length;
+
+      if (featuredCount) featuredCount.textContent = `${visibleFeatured} projects`;
+      if (allCount) allCount.textContent = `${visibleOther} more`;
+      if (featuredHeader) featuredHeader.style.display = visibleFeatured ? "flex" : "none";
+      if (allHeader) allHeader.style.display = visibleOther ? "flex" : "none";
+    };
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const filter = button.getAttribute("data-filter") || "all";
+
+        filterButtons.forEach((btn) => {
+          btn.classList.remove("active");
+          btn.setAttribute("aria-pressed", "false");
+        });
+
+        button.classList.add("active");
+        button.setAttribute("aria-pressed", "true");
+
+        projectCards.forEach((card) => {
+          const categories = card.getAttribute("data-categories") || "";
+          const matches = filter === "all" || categories.split(" ").includes(filter);
+          card.classList.toggle("hidden-by-filter", !matches);
+        });
+
+        updateSectionState();
       });
-    };
+    });
 
-    const hideAllCards = (cards: any[]) => {
-      cards.forEach((card: { classList: { add: (arg0: string) => any; }; }) => card.classList.add("hidden"));
-    };
+    clickableCards.forEach((card) => {
+      const projectName = card.getAttribute("data-name") || "";
 
-    document.addEventListener("click", (event) => {
-      const btn = (event.target as Element)?.closest?.(".file");
-      if (!btn) return;
+      card.addEventListener("click", (event) => {
+        const target = event.target;
+        if (target instanceof Element && target.closest("a")) return;
+        openProjectModal(projectName);
+      });
 
-      const buttons = Array.from(document.querySelectorAll(".file"));
-      const cards = Array.from(document.querySelectorAll(".project-card"));
-      const defaultCard = document.querySelector(
-        '.project-card[data-project="__default"]'
-      );
-      const targetProject = btn.getAttribute("data-project");
-      if (!targetProject) return;
+      card.addEventListener("keydown", (event) => {
+        const keyboardEvent = event as KeyboardEvent;
+        if (keyboardEvent.key !== "Enter" && keyboardEvent.key !== " ") return;
+        keyboardEvent.preventDefault();
+        openProjectModal(projectName);
+      });
+    });
 
-      const isOpen = btn.getAttribute("data-open") === "true";
-      const nextState = !isOpen;
+    projectModalBackdrop?.addEventListener("click", closeProjectModal);
+    projectModalClose?.addEventListener("click", closeProjectModal);
 
-      resetButtons(buttons);
-      hideAllCards(cards);
-
-      if (defaultCard) defaultCard.classList.add("hidden");
-
-      if (nextState) {
-        btn.setAttribute("data-open", "true");
-        btn.setAttribute("aria-pressed", "true");
-        const icon = btn.querySelector(".folder-icon") as HTMLImageElement;
-        if (icon) icon.src = "/images/open-folder.svg";
-
-        const match = cards.find(
-          (card) => card.getAttribute("data-project") === targetProject
-        );
-        if (match) match.classList.remove("hidden");
-      } else if (defaultCard) {
-        defaultCard.classList.remove("hidden");
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && projectModal && !projectModal.hidden) {
+        closeProjectModal();
       }
     });
+
+    updateSectionState();
   }
 </script>
 
 <style>
+
   @font-face {
-    font-family: "Hurmit";
-    src: url("/src/assets/fonts/HurmitNerdFont-Regular.otf") format("opentype");
+    font-family: "Wark";
+    src: url("/src/assets/fonts/wark-Regular.ttf") format("truetype");
   }
-  #container {
+
+  .projects-shell {
+    --font-sans: "Wark", sans-serif;
+    margin-top: 8rem;
+    width: min(1180px, 92vw);
+    margin-inline: auto;
+    margin-bottom: 3rem;
+    background: #1a0a0f9a;
+    border: 0.5px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .content {
     display: grid;
-    grid-template-columns: 1fr 2fr;
-    justify-items: center;
-    flex-direction: row;
-    margin-top: 4rem;
-    width: 80vw;
+    grid-template-columns: 240px 1fr;
+    min-height: 540px;
   }
-  .right {
+
+  .sidebar {
+    border-right: 0.5px solid rgba(255, 255, 255, 0.08);
+    padding: 1.5rem 0;
+  }
+
+  .filter-btn {
     display: flex;
-    flex-direction: column;
-    width: 80%;
     align-items: center;
-    margin-left: auto;
-  }
-  .left {
-    display: flex;
-    flex-direction: column;
-    padding-right: 4rem;
-    border-right: 2px solid #63636348;
-  }
-  .file-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  .file {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 0.5rem;
-    background: transparent;
+    gap: 8px;
+    width: 100%;
+    padding: 0.45rem 1.2rem;
+    font-size: 0.75rem;
+    font-family: Hurmit, sans-serif;
+    color: rgba(255, 255, 255, 0.45);
+    background: none;
     border: none;
     cursor: pointer;
-  }
-  .file:focus-visible {
-    outline: 2px solid #8c8c8c;
-    border-radius: 8px;
-  }
-  .folder-icon {
-    filter: invert(83%) sepia(8%) saturate(0%) hue-rotate(170deg)
-      brightness(70%) contrast(87%);
-  }
-  .pname {
-    color: #8c8c8c;
-    margin: 0;
-    font-family: Hurmit, sans-serif;
-    font-size: 1rem;
-    text-align: center;
-  }
-  .project-display {
-    display: flex;
-    justify-content: center;
+    text-align: left;
+    letter-spacing: 0.03em;
   }
 
-  .project-card.hidden {
+  .filter-btn:hover {
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .filter-btn.active {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .filter-btn .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .filter-btn .count {
+    margin-left: auto;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.25);
+  }
+
+  .divider {
+    border: none;
+    border-top: 0.5px solid rgba(255, 255, 255, 0.08);
+    margin: 0.75rem 0;
+  }
+
+  .main {
+    padding: 1.5rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .section-title {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+  }
+
+  .section-count {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.18);
+  }
+
+  .featured {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+
+  .card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    transition: background 0.15s, border-color 0.15s;
+  }
+
+  .card:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .card.featured-card {
+    border-color: rgba(180, 120, 140, 0.3);
+    background: rgba(100, 20, 40, 0.25);
+  }
+
+  .card.featured-card:hover {
+    background: rgba(100, 20, 40, 0.38);
+    border-color: rgba(200, 140, 160, 0.4);
+  }
+
+  .project-card {
+    cursor: pointer;
+  }
+
+  .project-card:focus-visible {
+    outline: 2px solid rgba(175, 169, 236, 0.6);
+    outline-offset: 2px;
+  }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 0.6rem;
+  }
+
+  .card-icon {
+    font-size: 15px;
+    color: rgba(220, 160, 180, 0.7);
+  }
+
+  .card-arrow {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+  }
+
+  .card-name {
+    font-size: 1.5rem;
+    font-weight: 500;
+    font-family: var(--font-sans);
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.01em;
+  }
+
+  .card-desc {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.4);
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+    font-family: var(--font-mono, monospace);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .tag {
+    font-size: 0.6rem;
+    letter-spacing: 0.05em;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-family: var(--font-mono, monospace);
+  }
+
+  .tag.ml {
+    background: rgba(83, 74, 183, 0.2);
+    color: #afa9ec;
+    border: 0.5px solid rgba(83, 74, 183, 0.3);
+  }
+
+  .tag.frontend {
+    background: rgba(93, 202, 165, 0.16);
+    color: #8be3c4;
+    border: 0.5px solid rgba(93, 202, 165, 0.28);
+  }
+
+  .tag.backend {
+    background: rgba(186, 117, 23, 0.18);
+    color: #ef9f27;
+    border: 0.5px solid rgba(186, 117, 23, 0.28);
+  }
+
+  .tag.mobile {
+    background: rgba(151, 196, 89, 0.16);
+    color: #b9e07f;
+    border: 0.5px solid rgba(151, 196, 89, 0.28);
+  }
+
+  .tag.automation {
+    background: rgba(240, 149, 149, 0.16);
+    color: #ffb0b0;
+    border: 0.5px solid rgba(240, 149, 149, 0.28);
+  }
+
+  .tag.gray {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.35);
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+  }
+
+  .small-card {
+    background: rgba(255, 255, 255, 0.025);
+    border: 0.5px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 0.8rem 0.9rem;
+  }
+
+  .small-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .small-card-name-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .small-arrow {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-size: 13px;
+  }
+
+  .small-card-name {
+    font-size: 1rem;
+    font-family: var(--font-sans, sans-serif);
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 0.3rem;
+    margin-top: 0.2rem;
+  }
+
+  .small-card-desc {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.35);
+    line-height: 1.35;
+    margin-bottom: 0.6rem;
+    font-family: var(--font-mono, monospace);
+  }
+
+  .hidden-by-filter {
     display: none !important;
   }
-  h1 {
-    color: #b6b6b6;
-    text-align: center;
-    font-family: Neighbor, sans-serif;
+
+  .project-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+  }
+
+  .project-modal[hidden] {
+    display: none;
+  }
+
+  .project-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    border: 0;
+    background: rgba(0, 0, 0, 0.62);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+  }
+
+  .project-modal-dialog {
+    position: relative;
+    z-index: 1;
+    width: min(980px, 94vw);
+    max-height: min(88vh, 1000px);
+    overflow: auto;
+    padding: 1rem;
+  }
+
+  .project-modal-close {
+    position: sticky;
+    top: 0.5rem;
+    margin-left: auto;
+    display: block;
+    border: 0.5px solid rgba(255, 255, 255, 0.14);
+    background: rgba(26, 10, 15, 0.85);
+    color: rgba(255, 255, 255, 0.7);
+    border-radius: 999px;
+    width: 2.25rem;
+    height: 2.25rem;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .project-modal-close:hover {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.28);
+  }
+
+  .project-modal-panel {
+    margin-top: 0.75rem;
+  }
+
+  .project-modal-panel[hidden] {
+    display: none;
+  }
+
+  .github-wrap {
     display: flex;
     justify-content: center;
-    align-items: center;
+    margin: 1.5rem 0 2rem;
+    padding-inline: 1rem;
   }
-  @media screen and (max-width: 1502px) {
-  }
-  @media screen and (max-width: 1100px) {
-    #container {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      width: 80%;
+
+  @media screen and (max-width: 960px) {
+    .content {
+      grid-template-columns: 1fr;
     }
-  }
-  @media screen and (max-width: 756px) {
-    #container {
-      display: flex;
-      flex-direction: column;
-      width: 90%;
-    }
-    .file-list {
-      display: flex;
-      flex-direction: row;
-      align-items: baseline;
-    }
-    .left {
-      padding-right: unset;
+
+    .sidebar {
       border-right: none;
+      border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
     }
-    .right {
-      margin-left: unset;
-      width: 100%;
-      margin-top: 2rem;
+
+    .featured {
+      grid-template-columns: 1fr;
     }
-    .HProject {
-      display: flex;
-      justify-content: center;
+
+    .grid {
+      grid-template-columns: 1fr 1fr;
     }
   }
 
-  @media screen and (max-width: 578px) {
-    .file-list {
-      flex-wrap: wrap;
-      justify-content: center;
-      text-align: left;
+  @media screen and (max-width: 620px) {
+    .projects-shell {
+      width: 94vw;
+      margin-top: 7rem;
     }
-    .pname{
-      width:5rem;
+
+    .project-modal {
+      padding: 1rem 0.5rem;
+    }
+
+    .project-modal-dialog {
+      width: 96vw;
+      max-height: 90vh;
+      padding: 0.25rem;
+    }
+
+    .grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>
