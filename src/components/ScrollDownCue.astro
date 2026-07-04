@@ -20,6 +20,11 @@ import { ChevronDown } from "@lucide/astro";
   const isPageScrollable = () =>
     document.documentElement.scrollHeight > window.innerHeight + 20;
 
+  const isAtPageBottom = () => {
+    const maxScrollY = document.documentElement.scrollHeight - window.innerHeight;
+    return window.scrollY >= maxScrollY - 2;
+  };
+
   const updateScrollCue = () => {
     if (!scrollCue) return;
 
@@ -28,7 +33,7 @@ import { ChevronDown } from "@lucide/astro";
       return;
     }
 
-    scrollCue.classList.toggle("is-hidden", window.scrollY > 20);
+    scrollCue.classList.toggle("is-hidden", isAtPageBottom());
   };
 
   updateScrollCue();

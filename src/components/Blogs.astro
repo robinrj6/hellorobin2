@@ -1,0 +1,220 @@
+---
+import pubData from "../../public/data/publications.json";
+
+const entries = pubData.writing;
+
+const isResearch = (type: string) => type === "research";
+const sourceClass = (type: string) => (isResearch(type) ? "ieee" : "imgly");
+---
+
+<section class="section" aria-label="Writing and publications">
+    <div class="section-label">Writing & research</div>
+    <div class="writing-grid">
+        {
+            entries.map((entry) => (
+                <a
+                    class={`pub-card ${isResearch(entry.type) ? "research" : ""}`}
+                    href={entry.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={entry.title}
+                >
+                    <div
+                        class={`pub-badge ${isResearch(entry.type) ? "research" : "blog"}`}
+                    >
+                        {isResearch(entry.type) ? (
+                            <img
+                                class="icons research"
+                                src="/images/file-certificate.svg"
+                                aria-hidden="true"
+                            />
+                        ) : (
+                            <img
+                                class="icons blog"
+                                src="/images/pencil.svg"
+                                aria-hidden="true"
+                            />
+                        )}
+                    </div>
+                    <div class="pub-body">
+                        <div class="pub-meta">
+                            <span
+                                class={`pub-source ${sourceClass(entry.type)}`}
+                            >
+                                {entry.publisherShort}
+                            </span>
+                            <div class="pub-dot" />
+                            <span class="pub-date">{entry.year}</span>
+                            {entry.readingTimeMinutes && (
+                                <>
+                                    <div class="pub-dot" />
+                                    <span class="pub-date">
+                                        {entry.readingTimeMinutes} min read
+                                    </span>
+                                </>
+                            )}
+                        </div>
+                        <div class="pub-title">{entry.title}</div>
+                        <div class="pub-desc">{entry.description}</div>
+                        {entry.tags && (
+                            <div class="pub-tags">
+                                {entry.tags.map((tag) => (
+                                    <span class="pub-tag">{tag}</span>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                    <i
+                        class="ti ti-arrow-up-right pub-arrow"
+                        aria-hidden="true"
+                    />
+                </a>
+            ))
+        }
+    </div>
+</section>
+
+<style>
+    .icons {
+        width: 20px;
+        height: 20px;
+        filter: brightness(0) invert(1);
+    }
+    .section-label {
+        width: min(1180px, 92vw);
+        margin: 0 auto 0.35rem;
+        font-size: 0.95rem;
+        letter-spacing: 0.15em;
+        color: rgba(255, 255, 255, 0.5);
+        text-transform: uppercase;
+        font-family: "Hurmit", monospace;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .section {
+        width: min(1180px, 92vw);
+        margin: 0 auto;
+    }
+    .writing-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+    @media (max-width: 900px) {
+        .writing-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 560px) {
+        .writing-grid { grid-template-columns: 1fr; }
+    }
+    .pub-card {
+        background: rgba(255, 255, 255, 0.025);
+        border: 0.5px solid rgba(255, 255, 255, 0.09);
+        border-radius: 10px;
+        padding: 1rem 1.1rem;
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .pub-card:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.16);
+    }
+    .pub-card.research {
+        grid-column: 1 / -1;
+        border-color: rgba(83, 74, 183, 0.3);
+        background: rgba(83, 74, 183, 0.06);
+    }
+    .pub-card.research:hover {
+        background: rgba(83, 74, 183, 0.1);
+    }
+    .pub-badge {
+        flex-shrink: 0;
+        width: 38px;
+        height: 38px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+    }
+    .pub-badge.research {
+        background: rgba(83, 74, 183, 0.2);
+        border: 0.5px solid rgba(83, 74, 183, 0.35);
+    }
+    .pub-badge.blog {
+        background: rgba(255, 255, 255, 0.06);
+        border: 0.5px solid rgba(255, 255, 255, 0.1);
+    }
+    .pub-body {
+        flex: 1;
+        min-width: 0;
+    }
+    .pub-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 0.3rem;
+        flex-wrap: wrap;
+    }
+    .pub-source {
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        font-family: "Hurmit", monospace;
+        text-transform: uppercase;
+    }
+    .pub-source.ieee {
+        color: #afa9ec;
+    }
+    .pub-source.imgly {
+        color: rgba(255, 255, 255, 0.3);
+    }
+    .pub-dot {
+        width: 3px;
+        height: 3px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.15);
+    }
+    .pub-date {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.2);
+        font-family: "Hurmit", monospace;
+    }
+    .pub-title {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.82);
+        margin-bottom: 0.25rem;
+        line-height: 1.45;
+        font-family: "Hurmit", monospace;
+    }
+    .pub-desc {
+        font-size: 11.5px;
+        color: rgba(255, 255, 255, 0.35);
+        line-height: 1.6;
+        margin-bottom: 0.5rem;
+        font-family: "Hurmit", monospace;
+    }
+    .pub-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+    .pub-tag {
+        font-size: 10px;
+        padding: 2px 7px;
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 0.5px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.3);
+        font-family: "Hurmit", monospace;
+    }
+    .pub-arrow {
+        color: rgba(255, 255, 255, 0.14);
+        font-size: 14px;
+        flex-shrink: 0;
+        padding-top: 2px;
+        font-family: "Hurmit", monospace;
+    }
+</style>

@@ -1,0 +1,69 @@
+{
+  "writing": [
+    {
+      "type": "research",
+      "title": "PneumoGAN: Leveraging Deep Convolutional Generative Adversarial Network for Chest X-Ray Synthesis to Improve COVID-19 and Pneumonia Detection",
+      "publisher": "IEEE Access",
+      "publisherShort": "IEEE Access",
+      "date": "2021-10-04",
+      "year": 2021,
+      "description": "Used conditional GANs to synthesise chest X-ray training data, improving pneumonia and COVID-19 classification accuracy on limited medical imaging datasets.",
+      "doi": "10.1109/ACCESS.2021.9563341",
+      "url": "https://ieeexplore.ieee.org/document/9563341",
+      "tags": ["GAN", "Medical Imaging", "PyTorch", "Deep Learning"],
+      "thumbnail": null
+    },
+    {
+      "type": "blog",
+      "title": "A Guide to Batch Video Editing & Server Automation with FFmpeg",
+      "publisher": "IMG.LY Engineering",
+      "publisherShort": "IMG.LY",
+      "date": "2025-11-10",
+      "year": 2025,
+      "description": "How to build a Docker-based batch video processing system using FFmpeg with a FastAPI REST API and CLI — covering transcoding, compression, thumbnail generation, and workflow orchestration at scale.",
+      "url": "https://img.ly/blog/building-a-production-ready-batch-video-processing-server-with-ffmpeg/",
+      "readingTimeMinutes": 14,
+      "tags": ["FFmpeg", "Docker", "FastAPI", "Python", "Server-side Video"],
+      "thumbnail": "https://blog.img.ly/2025/11/ffmpeg-batch-editing-processing-videos-how-to--1-.jpg"
+    },
+    {
+      "type": "blog",
+      "title": "How to Run FFmpeg Inside a Docker Container",
+      "publisher": "IMG.LY Engineering",
+      "publisherShort": "IMG.LY",
+      "date": "2025-10-29",
+      "year": 2025,
+      "description": "A practical guide to running FFmpeg in Docker — from pulling pre-built images to writing custom Dockerfiles — covering GPU acceleration, multi-stage builds, and production pipeline patterns.",
+      "url": "https://img.ly/blog/how-to-run-ffmpeg-inside-a-docker-container/",
+      "readingTimeMinutes": 8,
+      "tags": ["FFmpeg", "Docker", "DevOps", "Server-side Video"],
+      "thumbnail": "https://blog.img.ly/2025/10/ffmpeg-docker-container-how-to.jpg"
+    },
+    {
+      "type": "blog",
+      "title": "FFmpeg on Google Cloud Platform: Step-by-Step for Beginners",
+      "publisher": "IMG.LY Engineering",
+      "publisherShort": "IMG.LY",
+      "date": "2025-10-08",
+      "year": 2025,
+      "description": "Step-by-step guide to deploying FFmpeg on GCP — covering VM setup, Cloud Storage, media conversion pipelines, and integrating with CE.SDK for full creative editing workflows.",
+      "url": "https://img.ly/blog/ffmpeg-on-google-cloud-platform-guide/",
+      "readingTimeMinutes": 11,
+      "tags": ["FFmpeg", "GCP", "Cloud", "Server-side Video"],
+      "thumbnail": "https://img.ly/_astro/ffmpeg-GCP-tutorial-1_Z2nw0IS.webp"
+    },
+    {
+      "type": "blog",
+      "title": "How to Run FFmpeg on AWS Spot Instances for Scalable, Low-Cost Video Processing",
+      "publisher": "IMG.LY Engineering",
+      "publisherShort": "IMG.LY",
+      "date": "2025-10-06",
+      "year": 2025,
+      "description": "How to leverage AWS Spot Instances for cost-effective FFmpeg video processing — covering S3 setup, Spot interruption handling, and building resilient cloud media pipelines.",
+      "url": "https://img.ly/blog/how-to-run-ffmpeg-on-aws-spot-instances-for-scalable-low-cost-video-processing/",
+      "readingTimeMinutes": 14,
+      "tags": ["FFmpeg", "AWS", "Cloud", "Server-side Video"],
+      "thumbnail": "https://img.ly/_astro/ffmpeg-awe_AcVht.webp"
+    }
+  ]
+}
