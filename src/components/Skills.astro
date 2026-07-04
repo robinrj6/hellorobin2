@@ -1,26 +1,69 @@
 ---
 import skillsData from "../../public/data/skills.json";
+
+type SkillGroup =
+  | "ml"
+  | "frontend"
+  | "backend"
+  | "mobile"
+  | "automation"
+  | "gray";
+
+type SkillEntry = {
+  name: string;
+  icon: string;
+  group?: SkillGroup;
+};
+
+const groupLabels: Record<SkillGroup, string> = {
+  ml: "AI / ML",
+  frontend: "Frontend",
+  backend: "Backend",
+  mobile: "Mobile",
+  automation: "Automation",
+  gray: "Other",
+};
+
+const groupOrder: SkillGroup[] = [
+  "ml",
+  "frontend",
+  "backend",
+  "mobile",
+  "automation",
+  "gray",
+];
+
+const typedSkills = skillsData as SkillEntry[];
+
+const groupedSkills = groupOrder
+  .map((group) => ({
+    id: group,
+    label: groupLabels[group],
+    items: typedSkills.filter((skill) => (skill.group ?? "gray") === group),
+  }))
+  .filter((group) => group.items.length > 0);
 ---
 
-<div class="skills">
-  <h1>Skills That Keep the Lights On ⚡️</h1>
-  <img
-    src="/images/lightning.svg"
-    alt="Know Me Icon"
-    width="200"
-    height="200"
-    class="backgroundimg"
-  />
-  <ul class="skills-list">
+<div class="section-label">Stack</div>
+<div class="skills-wrap">
+  <div class="clusters">
     {
-      skillsData.map((skill) => (
-        <li class="skill-item">
-          <img src={skill.icon} alt={skill.name} />
-          <span>{skill.name}</span>
-        </li>
+      groupedSkills.map((group) => (
+        <section class="cluster">
+          <span class="cluster-name">{group.label}</span>
+
+          <ul class="cluster-row">
+            {group.items.map((skill) => (
+              <li class="skill-item">
+                <img src={skill.icon} alt={skill.name} loading="lazy" />
+                <span>{skill.name}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
       ))
     }
-  </ul>
+  </div>
 </div>
 
 <style>
@@ -34,47 +77,30 @@ import skillsData from "../../public/data/skills.json";
     font-family: "Hurmit";
     src: url("/src/assets/fonts/HurmitNerdFont-Regular.otf") format("opentype");
   }
-  h1 {
-    text-align: left;
-    font-family: "Hurmit", sans-serif;
-    color: rgba(182, 182, 182, 0.718);
-    margin-bottom: 1rem;
-  }
 
-  .skills {
+  .skills-wrap {
+    --border-angle: 0deg;
+    font-family: "Hurmit", sans-serif;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    width: min(1180px, 92vw);
+    margin: 0 auto 2.25rem;
     display: flex;
     flex-direction: column;
-    min-height: max-content;
-    position: relative;
-  }
-
-  .skills-list {
-    --border-angle: 0deg;
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    padding: 2rem;
-    justify-content: center;
-    row-gap: 1rem;
-    column-gap: 1rem;
-    width: 65vw;
-    max-height: 80vh;
-    border-radius: 12px;
-    position: relative;
-    border: 3px solid transparent;
-    cursor: default;
+    gap: 1.75rem;
     background:
-      linear-gradient(rgba(42, 33, 26, 1), rgba(42, 33, 26, 1))
-        padding-box,
+      linear-gradient(#130609, #130609) padding-box,
       conic-gradient(
-        from var(--border-angle),
-        rgba(255, 255, 255, 0.1) 0deg,
-        rgba(255, 255, 255, 0.1) 320deg,
-        rgba(182, 82, 255, 0.95) 338deg,
-        rgba(255, 255, 255, 1) 349deg,
-        rgba(182, 82, 255, 0.95) 356deg,
-        rgba(255, 255, 255, 0.1) 360deg
-      ) border-box;
+          from var(--border-angle),
+          rgba(255, 255, 255, 0.08) 0deg,
+          rgba(255, 255, 255, 0.08) 320deg,
+          rgba(182, 82, 255, 0.95) 338deg,
+          rgba(255, 255, 255, 1) 349deg,
+          rgba(182, 82, 255, 0.95) 356deg,
+          rgba(255, 255, 255, 0.08) 360deg
+        )
+        border-box;
     box-shadow: 0 0 20px rgba(182, 82, 255, 0.12);
     animation: border-flow 4s linear infinite;
   }
@@ -84,45 +110,74 @@ import skillsData from "../../public/data/skills.json";
       --border-angle: 360deg;
     }
   }
-  .backgroundimg {
-    position: absolute;
-    top: 0;
-    right: 50%;
-    width: 150px;
-    height: 150px;
-    opacity: 0.5;
-    filter: brightness(0) saturate(100%) invert(60%) hue-rotate(100deg)
-      contrast(45%);
+
+  .section-label {
+    width: min(1180px, 92vw);
+    margin: 0 auto 0.35rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    font-family: "Hurmit", monospace;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
+
+  .clusters {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+  }
+
+  .cluster {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .cluster-name {
+    width: 88px;
+    flex-shrink: 0;
+    padding-top: 8px;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.24);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: "Hurmit", monospace;
+  }
+
+  .cluster-row {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
   .skill-item {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    text-align: center;
-    width: fit-content;
-    height: max-content;
-    color: #c0c0c0;
-    font-family: "Hurmit", sans-serif;
-    background-color: rgba(83, 82, 82, 0.667);
-    border-radius: 10px;
-    box-shadow:
-      0 4px 6px rgb(0 0 0 / 20%),
-      0 0 10px rgb(0 0 0 / 10%);
-    border: 1px solid #ededed5f;
-    padding: 0.5rem 1rem;
+    gap: 7px;
+    color: rgba(255, 255, 255, 0.62);
+    background: rgba(255, 255, 255, 0.04);
+    border: 0.5px solid rgba(255, 255, 255, 0.09);
+    border-radius: 7px;
+    padding: 6px 11px;
     position: relative;
     overflow: hidden;
+    cursor: default;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.2s ease;
   }
+
   .skill-item:hover {
-    background-color: rgba(83, 82, 82, 0.8);
-    box-shadow:
-      0 4px 6px rgb(0 0 0 / 30%),
-      0 0 15px rgb(0 0 0 / 20%);
-    border: 1px solid #ededed9f;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.16);
     transform: translateY(-2px);
-    transition: all 0.3s ease;
   }
 
   .skill-item::after {
@@ -158,25 +213,32 @@ import skillsData from "../../public/data/skills.json";
   }
 
   .skill-item span {
-    text-align: center;
-    font-size: 0.875rem;
+    font-size: 12px;
+    line-height: 1;
+    font-family: "Hurmit", monospace;
   }
+
   .skill-item img {
-    width: 24px;
-    height: 24px;
+    width: 16px;
+    height: 16px;
     object-fit: contain;
+    flex-shrink: 0;
   }
+
   @media screen and (max-width: 700px) {
-    .skills {
-      margin-top: 5rem;
-      justify-content: center;
-        align-items: center;
+    .skills-wrap {
+      padding: 1.25rem 1rem;
+      width: 94vw;
     }
-    .skills-list {
-      width: 75vw;
-      padding: 1rem;
-      overflow-y: scroll;
-      overflow-x: hidden ;
+
+    .cluster {
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .cluster-name {
+      width: auto;
+      padding-top: 0;
     }
   }
 </style>

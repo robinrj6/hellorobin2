@@ -2,6 +2,7 @@
 import Navbar from "../components/Navbar.astro";
 import Skills from "../components/Skills.astro";
 import Welcome from "../components/Welcome.astro";
+import Blogs from "../components/Blogs.astro"
 import ContainerCenter from "../layouts/ContainerCenter.astro";
 import Layout from "../layouts/Layout.astro";
 
@@ -13,9 +14,15 @@ import Layout from "../layouts/Layout.astro";
   <Navbar />
   <ContainerCenter>
     <Welcome />
+    <hr class="divider" />
   </ContainerCenter>
   <ContainerCenter>
     <Skills />
+  </ContainerCenter>
+  <hr class="divider" />
+  <ContainerCenter>
+    
+    <Blogs/>
   </ContainerCenter>
 </Layout>
 
@@ -24,5 +31,11 @@ import Layout from "../layouts/Layout.astro";
     margin: 0;
     padding: 0;
     background-color: #340000;
+  }
+  .divider {
+    border: none;
+    border-top: 0.5px solid rgba(255, 255, 255, 0.08);
+    margin: 0 auto;
+    width: 80%;
   }
 </style>
