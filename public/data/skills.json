@@ -7,16 +7,32 @@
   {
     "name": "Python",
     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
-    "group": "ml",
-    "aliases": [
-      "PyTorch",
-      "OpenCV",
-      "NumPy",
-      "Matplotlib",
-      "PyQt5",
-      "Scikit-learn",
-      "GANs"
-    ]
+    "group": "ml"
+  },
+  {
+    "name": "PyTorch",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg",
+    "group": "ml"
+  },
+  {
+    "name": "OpenCV",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opencv/opencv-original.svg",
+    "group": "ml"
+  },
+  {
+    "name": "NumPy",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg",
+    "group": "ml"
+  },
+  {
+    "name": "Matplotlib",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matplotlib/matplotlib-original.svg",
+    "group": "ml"
+  },
+  {
+    "name": "Scikit-learn",
+    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikitlearn/scikitlearn-original.svg",
+    "group": "ml"
   },
   {
     "name": "C++",
@@ -242,7 +258,7 @@
   {
     "name": "Linux",
     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg",
-    "group": "backend",
+    "group": "gray",
     "aliases": ["Linux HPC", "SLURM", "Bash", "Shell", "FFMPEG"]
   },
   {
